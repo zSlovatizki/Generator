@@ -1,0 +1,18 @@
+.Line {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+}
+
+.Line > * {
+    margin-left: var(--margin_base);
+}
+
+.Line > :first-child {
+    margin-left: 0;
+}
+
+[justify="between"] {
+    justify-content: space-between;
+}

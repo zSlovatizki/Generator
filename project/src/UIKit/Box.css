@@ -1,0 +1,8 @@
+
+.Box {
+    padding: var(--padding_base);
+    background-color: var(--text_alter);
+    box-shadow: var(--shadow);
+    margin: 0 auto;
+    max-width: 400px;
+}

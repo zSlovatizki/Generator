@@ -1,0 +1,56 @@
+.Grid {
+    display: grid;
+    height: 100%;
+    grid-template-rows: 1fr;
+}
+
+
+
+.Grid.main {
+    grid-template-rows: 60px 1fr;
+}
+
+.Grid.main > :nth-child(1) {
+    background-color: #20232a;
+    color: #fff;
+    padding: var(--padding-layout);
+}
+
+.Grid.header {
+    grid-template-columns: 1fr minmax(100px, 4fr) 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+.Grid.header > :first-child {
+    justify-self: start;
+}
+
+.Grid.header > :last-child {
+    justify-self: end;
+}
+
+
+.Grid.sidebar {
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 30%;
+    grid-template-areas:
+        "cont sidebar";
+    width: 100%;
+}
+
+
+.Grid.sidebar > :nth-child(1) {
+    grid-area: sidebar;
+    background-color: #F7F7F7;
+    border-left: 1px solid #ececec;
+    margin-right: -100%;
+    margin-left: var(--margin_bigger);
+    padding: var(--padding-layout);
+}
+
+.Grid.sidebar > :nth-child(2) {
+    grid-area: cont;
+    background-color: #ffffff;
+    padding: var(--padding-layout);
+}
