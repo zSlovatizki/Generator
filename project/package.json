@@ -18,6 +18,8 @@
     "google-map-react": "^2.1.10",
     "google-maps-react": "^2.0.6",
     "immer": "^9.0.5",
+    "mobx": "^6.3.3",
+    "mobx-react": "^7.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-google-maps": "^9.4.5",
@@ -30,11 +32,11 @@
     "yup": "^0.32.9"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
+     },
   "eslintConfig": {
     "extends": [
       "react-app",
