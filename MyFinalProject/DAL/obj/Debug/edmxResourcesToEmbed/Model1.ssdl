@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GeneratorModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="T_Cables">
+    <Key>
+      <PropertyRef Name="cableId" />
+    </Key>
+    <Property Name="cableId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="height" Type="float" Nullable="false" />
+    <Property Name="width" Type="float" Nullable="false" />
+    <Property Name="path" Type="text" Nullable="false" />
+    <Property Name="generatorId" Type="int" Nullable="false" />
+    <Property Name="typeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="T_CreditDetails">
+    <Key>
+      <PropertyRef Name="creditId" />
+    </Key>
+    <Property Name="creditId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="creditNumber" Type="nvarchar" MaxLength="16" Nullable="false" />
+    <Property Name="creditValidity" Type="date" Nullable="false" />
+    <Property Name="creditCVV" Type="nvarchar" MaxLength="3" Nullable="false" />
+    <Property Name="creditTZ" Type="nvarchar" MaxLength="9" Nullable="false" />
+    <Property Name="creditName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="userId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="T_Generators">
+    <Key>
+      <PropertyRef Name="generatorId" />
+    </Key>
+    <Property Name="generatorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="managerId" Type="int" Nullable="false" />
+    <Property Name="ampeAmount" Type="float" />
+  </EntityType>
+  <EntityType Name="T_managers">
+    <Key>
+      <PropertyRef Name="menagerId" />
+    </Key>
+    <Property Name="menagerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="20" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="T_User">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstName" Type="nvarchar" MaxLength="50" />
+    <Property Name="lastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="address" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="phone" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="ampereAmount" Type="float" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="generatorId" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="T_UserInDate">
+    <Key>
+      <PropertyRef Name="userInDateId" />
+    </Key>
+    <Property Name="userInDateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userId" Type="int" />
+    <Property Name="date" Type="date" />
+    <Property Name="amperUseAmount" Type="float" />
+    <Property Name="degreesCelsius" Type="float" />
+  </EntityType>
+  <Association Name="FK_T_Cables_T_Generators">
+    <End Role="T_Generators" Type="Self.T_Generators" Multiplicity="1" />
+    <End Role="T_Cables" Type="Self.T_Cables" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Generators">
+        <PropertyRef Name="generatorId" />
+      </Principal>
+      <Dependent Role="T_Cables">
+        <PropertyRef Name="generatorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_T_CreditDetails_T_User">
+    <End Role="T_User" Type="Self.T_User" Multiplicity="1" />
+    <End Role="T_CreditDetails" Type="Self.T_CreditDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_User">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="T_CreditDetails">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_T_Generators_T_managers">
+    <End Role="T_managers" Type="Self.T_managers" Multiplicity="1" />
+    <End Role="T_Generators" Type="Self.T_Generators" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_managers">
+        <PropertyRef Name="menagerId" />
+      </Principal>
+      <Dependent Role="T_Generators">
+        <PropertyRef Name="managerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_T_User_T_Generators">
+    <End Role="T_Generators" Type="Self.T_Generators" Multiplicity="1" />
+    <End Role="T_User" Type="Self.T_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Generators">
+        <PropertyRef Name="generatorId" />
+      </Principal>
+      <Dependent Role="T_User">
+        <PropertyRef Name="generatorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_T_UserInDate_T_User">
+    <End Role="T_User" Type="Self.T_User" Multiplicity="0..1" />
+    <End Role="T_UserInDate" Type="Self.T_UserInDate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_User">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="T_UserInDate">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GeneratorModelStoreContainer">
+    <EntitySet Name="T_Cables" EntityType="Self.T_Cables" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_CreditDetails" EntityType="Self.T_CreditDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_Generators" EntityType="Self.T_Generators" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_managers" EntityType="Self.T_managers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_User" EntityType="Self.T_User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="T_UserInDate" EntityType="Self.T_UserInDate" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_T_Cables_T_Generators" Association="Self.FK_T_Cables_T_Generators">
+      <End Role="T_Generators" EntitySet="T_Generators" />
+      <End Role="T_Cables" EntitySet="T_Cables" />
+    </AssociationSet>
+    <AssociationSet Name="FK_T_CreditDetails_T_User" Association="Self.FK_T_CreditDetails_T_User">
+      <End Role="T_User" EntitySet="T_User" />
+      <End Role="T_CreditDetails" EntitySet="T_CreditDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_T_Generators_T_managers" Association="Self.FK_T_Generators_T_managers">
+      <End Role="T_managers" EntitySet="T_managers" />
+      <End Role="T_Generators" EntitySet="T_Generators" />
+    </AssociationSet>
+    <AssociationSet Name="FK_T_User_T_Generators" Association="Self.FK_T_User_T_Generators">
+      <End Role="T_Generators" EntitySet="T_Generators" />
+      <End Role="T_User" EntitySet="T_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_T_UserInDate_T_User" Association="Self.FK_T_UserInDate_T_User">
+      <End Role="T_User" EntitySet="T_User" />
+      <End Role="T_UserInDate" EntitySet="T_UserInDate" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
