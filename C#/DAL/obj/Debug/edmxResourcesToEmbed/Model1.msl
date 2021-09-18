@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GeneratorModelStoreContainer" CdmEntityContainer="GeneratorEntities">
+    <EntitySetMapping Name="T_Cables">
+      <EntityTypeMapping TypeName="GeneratorModel.T_Cables">
+        <MappingFragment StoreEntitySet="T_Cables">
+          <ScalarProperty Name="cableId" ColumnName="cableId" />
+          <ScalarProperty Name="height" ColumnName="height" />
+          <ScalarProperty Name="width" ColumnName="width" />
+          <ScalarProperty Name="path" ColumnName="path" />
+          <ScalarProperty Name="generatorId" ColumnName="generatorId" />
+          <ScalarProperty Name="typeId" ColumnName="typeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_CreditDetails">
+      <EntityTypeMapping TypeName="GeneratorModel.T_CreditDetails">
+        <MappingFragment StoreEntitySet="T_CreditDetails">
+          <ScalarProperty Name="creditId" ColumnName="creditId" />
+          <ScalarProperty Name="creditNumber" ColumnName="creditNumber" />
+          <ScalarProperty Name="creditValidity" ColumnName="creditValidity" />
+          <ScalarProperty Name="creditCVV" ColumnName="creditCVV" />
+          <ScalarProperty Name="creditTZ" ColumnName="creditTZ" />
+          <ScalarProperty Name="creditName" ColumnName="creditName" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_Generators">
+      <EntityTypeMapping TypeName="GeneratorModel.T_Generators">
+        <MappingFragment StoreEntitySet="T_Generators">
+          <ScalarProperty Name="generatorId" ColumnName="generatorId" />
+          <ScalarProperty Name="managerId" ColumnName="managerId" />
+          <ScalarProperty Name="ampeAmount" ColumnName="ampeAmount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_managers">
+      <EntityTypeMapping TypeName="GeneratorModel.T_managers">
+        <MappingFragment StoreEntitySet="T_managers">
+          <ScalarProperty Name="menagerId" ColumnName="menagerId" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_User">
+      <EntityTypeMapping TypeName="GeneratorModel.T_User">
+        <MappingFragment StoreEntitySet="T_User">
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="firstName" ColumnName="firstName" />
+          <ScalarProperty Name="lastName" ColumnName="lastName" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="ampereAmount" ColumnName="ampereAmount" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="generatorId" ColumnName="generatorId" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_UserInDate">
+      <EntityTypeMapping TypeName="GeneratorModel.T_UserInDate">
+        <MappingFragment StoreEntitySet="T_UserInDate">
+          <ScalarProperty Name="userInDateId" ColumnName="userInDateId" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="amperUseAmount" ColumnName="amperUseAmount" />
+          <ScalarProperty Name="degreesCelsius" ColumnName="degreesCelsius" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

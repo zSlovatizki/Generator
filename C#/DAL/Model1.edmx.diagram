@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0fe0dcc198da407896ebfba47aebbc2c" Name="Diagram1">
+        <EntityTypeShape EntityType="GeneratorModel.T_Cables" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GeneratorModel.T_CreditDetails" Width="1.5" PointX="7.5" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GeneratorModel.T_Generators" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GeneratorModel.T_managers" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GeneratorModel.T_User" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GeneratorModel.T_UserInDate" Width="1.5" PointX="7.5" PointY="7.625" IsExpanded="true" />
+        <AssociationConnector Association="GeneratorModel.FK_T_Cables_T_Generators" ManuallyRouted="false" />
+        <AssociationConnector Association="GeneratorModel.FK_T_CreditDetails_T_User" ManuallyRouted="false" />
+        <AssociationConnector Association="GeneratorModel.FK_T_Generators_T_managers" ManuallyRouted="false" />
+        <AssociationConnector Association="GeneratorModel.FK_T_User_T_Generators" ManuallyRouted="false" />
+        <AssociationConnector Association="GeneratorModel.FK_T_UserInDate_T_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
