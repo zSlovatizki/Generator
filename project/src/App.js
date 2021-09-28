@@ -3,6 +3,8 @@ import React, { useEffect } from 'react';
 import { withScriptjs } from 'react-google-maps';
 import Map from './Map';
 import { FetchCablesByManager } from './connect to server/Connect'
+import Show from './Mobx/show'
+import Modify from './Mobx/modify'
 const App = () => {
   
   useEffect(() => {
@@ -18,6 +20,8 @@ const App = () => {
         loadingElement={<div style={{ height: `100%` }} />}
       />
       <FetchCablesByManager></FetchCablesByManager>
+      <Show></Show>
+      <Modify></Modify>
     </>
   );
 
