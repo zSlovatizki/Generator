@@ -1,15 +1,17 @@
 import { observable, makeObservable,makeAutoObservable  } from 'mobx';
-
+import { any } from 'prop-types';
 class Users {
-   @observable  usersArray;
+ 
+   @observable  users=[];
   constructor() {
      this.usersArray=null;
-    makeAutoObservable(this)
+    makeAutoObservable(this
+      )
     
 
   }
 
-  setHeaders(usersArray) {
+  setUsers(usersArray) {
     this.usersArray = usersArray;
   }
 

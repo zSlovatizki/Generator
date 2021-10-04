@@ -2,15 +2,16 @@
 import React, { useEffect } from 'react';
 import { withScriptjs } from 'react-google-maps';
 import Map from './Map';
-import { FetchCablesByManager , FetchUsers } from './connect to server/Connect'
+import { FetchCablesByManager, FetchUsers } from './connect to server/Connect'
 import Show from './Mobx/show'
 import Modify from './Mobx/modify'
 import WithMaterialUI from './view/signIn'
+
 const App = () => {
-  
+
   useEffect(() => {
-    FetchCablesByManager()
-    FetchUsers()
+    FetchCablesByManager();
+    FetchUsers();
   }
     , [])
   const MapLoader = withScriptjs(Map);

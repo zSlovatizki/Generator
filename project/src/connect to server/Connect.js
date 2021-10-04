@@ -14,7 +14,7 @@ export const FetchUsers = () => {
    var list
    // var json={"userId":,"firstName":"dassi","lastName":"donat","address":"kahaneman 69","phone":"0548543249","Email":"dassid1441@gmail.com","ampereAmount":50.0,"password":"1234","generatorId":2,"status":1}
    axios.get("https://localhost:44306/api/Values/get"
-   ).then(( data ) => Users.usersArray= data.data)
+   ).then(( data ) => Users.setUsers( data.data))
    return (
       <>
       </>

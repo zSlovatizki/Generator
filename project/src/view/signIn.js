@@ -14,8 +14,9 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Users from '../Mobx/users'
+import {toJS} from 'mobx'
 
+import Users from '../Mobx/users'
 const useStyles = makeStyles((theme) => ({
     paper: {
       marginTop: theme.spacing(8),
@@ -62,8 +63,7 @@ const WithMaterialUI = () => {
        
       alert(JSON.stringify(values, null, 2));
       console.log(values);
-
-       console.log("users sign", Users.usersArray
+       console.log("users sign", toJS(Users.usersArray)
          )  
         
     },

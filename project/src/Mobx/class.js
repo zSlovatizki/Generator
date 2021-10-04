@@ -2,6 +2,7 @@ import { observable, makeObservable,makeAutoObservable  } from 'mobx';
 
 class Data {
    @observable  id;
+   
   constructor(id) {
      this.id=null;
     makeAutoObservable(this)
