@@ -1,6 +1,7 @@
 
 import MenuItem from '@material-ui/core/MenuItem';
 import React, { Component } from 'react';
+import Class from './Mobx/class'
 import {
   withGoogleMap,
   withScriptjs,
