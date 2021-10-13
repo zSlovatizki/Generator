@@ -16,3 +16,9 @@ C:\Users\user1\Desktop\MyFinalProject\DTO\obj\Debug\DTO.csprojAssemblyReference.
 C:\Users\user1\Desktop\MyFinalProject\DTO\obj\Debug\DTO.csproj.CoreCompileInputs.cache
 C:\Users\user1\Desktop\MyFinalProject\DTO\obj\Debug\DTO.dll
 C:\Users\user1\Desktop\MyFinalProject\DTO\obj\Debug\DTO.pdb
+C:\Users\user1\Desktop\פרויקט\Generatorפרויקט\C#\DTO\bin\Debug\DTO.dll
+C:\Users\user1\Desktop\פרויקט\Generatorפרויקט\C#\DTO\bin\Debug\DTO.pdb
+C:\Users\user1\Desktop\פרויקט\Generatorפרויקט\C#\DTO\obj\Debug\DTO.csprojAssemblyReference.cache
+C:\Users\user1\Desktop\פרויקט\Generatorפרויקט\C#\DTO\obj\Debug\DTO.csproj.CoreCompileInputs.cache
+C:\Users\user1\Desktop\פרויקט\Generatorפרויקט\C#\DTO\obj\Debug\DTO.dll
+C:\Users\user1\Desktop\פרויקט\Generatorפרויקט\C#\DTO\obj\Debug\DTO.pdb

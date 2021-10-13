@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Users from '../Mobx/users'
 
-export const FetchCablesByManager = () => {
+export const FetchCablesByManager = (id_manager) => {
    axios.get("https://localhost:44306/api/cable/get?idManager=7"
    ).then(({ data }) => console.log(data))
    return (
@@ -21,4 +21,11 @@ export const FetchUsers = () => {
    )
 }
 
-
+// export const FetchLoginUser = (id_manager) => {
+//    axios.post("https://localhost:44306/api/login/post?{}"
+//    ).then(({ data }) => console.log(data))
+//    return (
+//       <>
+//       </>
+//    )
+// }

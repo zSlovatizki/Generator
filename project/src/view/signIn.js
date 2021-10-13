@@ -17,6 +17,7 @@ import Container from '@material-ui/core/Container';
 import {toJS} from 'mobx'
 
 import Users from '../Mobx/users'
+import { useHistory } from 'react-router';
 const useStyles = makeStyles((theme) => ({
     paper: {
       marginTop: theme.spacing(8),
@@ -51,20 +52,23 @@ const useStyles = makeStyles((theme) => ({
 
 const WithMaterialUI = () => {
     const classes = useStyles();
-
+    const history = useHistory();
   const formik = useFormik({
     initialValues: {
-      email: 'foobar@example.com',
-      password: 'foobar',
+      email: 'dassid1441@gmail.com',
+      password: '12345678',
     },
      validationSchema: validationSchema,
     
      onSubmit: (values) => {
-       
-      alert(JSON.stringify(values, null, 2));
-      console.log(values);
-       console.log("users sign", toJS(Users.usersArray)
-         )  
+       let usersArray = toJS(Users.usersArray);
+      let findUser = usersArray.find(user=>user.Email===values.email && user.password===values.password);
+      if(findUser)
+     {
+        toJS(Users.setCurrentUser(findUser))
+        history.push("/map")
+    }
+      
         
     },
     
