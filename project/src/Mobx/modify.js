@@ -1,11 +1,11 @@
 import React from 'react'
-import Data from './class'
+import Cables from './cables'
 
 export default function Modify() {
     
     function handle() {
-        Data.setHeaders(7);
-        console.log("modify", Data.id)
+        Cables.markerAdd=0;
+        console.log("modify", Cables.markerAdd)
     }
     return (
         <>

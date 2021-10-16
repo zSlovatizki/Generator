@@ -1,7 +1,8 @@
 import { observable, makeObservable,makeAutoObservable  } from 'mobx';
 import { any } from 'prop-types';
 class Users {
- 
+  
+   @observable  currentUser=0;
    @observable  users=[];
   constructor() {
      this.usersArray=null;
@@ -13,6 +14,10 @@ class Users {
 
   setUsers(usersArray) {
     this.usersArray = usersArray;
+  }
+
+  setCurrentUser (currentUser){
+    this.currentUser = currentUser;
   }
 
  
