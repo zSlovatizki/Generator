@@ -53,7 +53,6 @@ function  addClick() {
       <div >
         <Autocomplete
         apiKey="AIzaSyCKLoEzJ7BScxRKW3vQVXWhzgm4VwtZPag&libraries=places"
-        style={{ width: "90%" }}
         onPlaceSelected={(place) => {
           onSelect(place);
         }}

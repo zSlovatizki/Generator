@@ -9,11 +9,9 @@ export const FetchCablesByManager = (id_manager) => {
 
    ).then(({ data }) => {
       Cables.cables = data
-      console.log("cables", Cables.cables)
       const x = toJS(Cables.cables)
-      console.log("X", x);
       var newArr = [];
-      var cordArr = x.map((c) => {
+      x.map((c) => {
          var tmpa = [];
          var a = c.path.split(" ");
          a.map(cc => {
@@ -22,12 +20,9 @@ export const FetchCablesByManager = (id_manager) => {
             tmpa.push(s);
          }
          )
-         newArr.push(tmpa)
-
+         newArr.push({ coordinates: tmpa, thickness: c.thickness, typeId: c.typeId })
       }
       );
-      console.log("newarr???????", newArr)
-
       Cables.cablesStringArr = newArr;
 
    })
@@ -46,7 +41,7 @@ export const FetchUsers = () => {
    var list
    // var json={"userId":,"firstName":"dassi","lastName":"donat","address":"kahaneman 69","phone":"0548543249","Email":"dassid1441@gmail.com","ampereAmount":50.0,"password":"1234","generatorId":2,"status":1}
    axios.get("https://localhost:44306/api/Values/get"
-   ).then((data) => Users.setUsers(data.data), console.log("con"))
+   ).then((data) => Users.setUsers(data.data))
    return (
       <>
       </>

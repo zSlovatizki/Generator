@@ -61,8 +61,11 @@ const WithMaterialUI = () => {
      validationSchema: validationSchema,
     
      onSubmit: (values) => {
+       console.log("submit")
        let usersArray = toJS(Users.usersArray);
+      console.log(usersArray)
       let findUser = usersArray.find(user=>user.Email===values.email && user.password===values.password);
+      console.log(findUser)
       if(findUser)
      {
         toJS(Users.setCurrentUser(findUser))
