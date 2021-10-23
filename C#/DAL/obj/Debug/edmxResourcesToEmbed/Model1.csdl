@@ -11,6 +11,7 @@
     <Property Name="generatorId" Type="Int32" Nullable="false" />
     <Property Name="typeId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="T_Generators" Relationship="Self.FK_T_Cables_T_Generators" FromRole="T_Cables" ToRole="T_Generators" />
+    <Property Name="thickness" Type="Int32" />
   </EntityType>
   <EntityType Name="T_CreditDetails">
     <Key>
@@ -161,5 +162,16 @@
       <End Role="T_User" EntitySet="T_User" />
       <End Role="T_UserInDate" EntitySet="T_UserInDate" />
     </AssociationSet>
+    <EntitySet Name="sysdiagrams" EntityType="GeneratorModel.sysdiagram" />
   </EntityContainer>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
 </Schema>

@@ -16,6 +16,7 @@
         <AssociationConnector Association="GeneratorModel.FK_T_Generators_T_managers" ManuallyRouted="false" />
         <AssociationConnector Association="GeneratorModel.FK_T_User_T_Generators" ManuallyRouted="false" />
         <AssociationConnector Association="GeneratorModel.FK_T_UserInDate_T_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GeneratorModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

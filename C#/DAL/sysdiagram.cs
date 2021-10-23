@@ -12,16 +12,12 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class T_Cables
+    public partial class sysdiagram
     {
-        public int cableId { get; set; }
-        public double height { get; set; }
-        public double width { get; set; }
-        public string path { get; set; }
-        public int generatorId { get; set; }
-        public int typeId { get; set; }
-        public int thickness { get; set; }
-    
-        public virtual T_Generators T_Generators { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

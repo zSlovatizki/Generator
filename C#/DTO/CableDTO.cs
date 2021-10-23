@@ -14,5 +14,6 @@ namespace DTO
         public string path { get; set; }
         public int generatorId { get; set; }
         public int typeId { get; set; }
+        public int thickness { get; set; }
     }
 }

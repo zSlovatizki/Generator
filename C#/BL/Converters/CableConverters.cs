@@ -19,6 +19,7 @@ namespace BL.Converters
             newCable.width = cable.width;
             newCable.path = cable.path;
             newCable.typeId = cable.typeId;
+            newCable.thickness = cable.thickness;
             return newCable;
         }
 
@@ -31,6 +32,7 @@ namespace BL.Converters
             newCable.width = cable.width;
             newCable.path = cable.path;
             newCable.typeId = cable.typeId;
+            newCable.thickness = cable.thickness;
             return newCable;
         }
 

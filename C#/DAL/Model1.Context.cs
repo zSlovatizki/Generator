@@ -31,5 +31,6 @@ namespace DAL
         public virtual DbSet<T_managers> T_managers { get; set; }
         public virtual DbSet<T_User> T_User { get; set; }
         public virtual DbSet<T_UserInDate> T_UserInDate { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }
