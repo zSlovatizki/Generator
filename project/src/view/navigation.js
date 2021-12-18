@@ -67,7 +67,7 @@ export default function Navigation() {
                     <UpdateDetails/>
                     </Route>
                     <Route path="/userDetails/using">
-                    <Chart></Chart>
+                    <Chart/>
                     </Route>
                     <Route path="/userDetails/amuont">
                     <UpdateAmountForAdress/>

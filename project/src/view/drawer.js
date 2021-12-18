@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import AddGnerator from './addGnerator'
+import AddGenerator from './addGenerator'
 const drawerWidth = "30%";
 
 const useStyles = makeStyles((theme) => ({
@@ -113,7 +113,7 @@ export default function PersistentDrawerRight() {
         </div>      
         <div zIndex={{zIndex:10}}>
           <h2>add generator</h2>
-          <AddGnerator style={{zIndex:1}}/>
+          <AddGenerator style={{zIndex:1}}/>
           </div>   
       </Drawer>
     </div>
