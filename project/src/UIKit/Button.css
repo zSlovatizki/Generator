@@ -1,0 +1,13 @@
+.myButton{
+    background-color:gray;
+    color: white;
+    width: 100px;
+    height: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    border:darkgray;
+}
+
+.myButton:hover{
+    opacity: 0.7;
+}

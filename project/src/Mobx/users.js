@@ -3,7 +3,7 @@ import { any } from 'prop-types';
 class Users {
   
    @observable  currentUser=0;
-   @observable  users=[];
+   @observable  usersArray=[];
   constructor() {
      this.usersArray=null;
     makeAutoObservable(this
@@ -13,13 +13,12 @@ class Users {
   }
 
   setUsers(usersArray) {
+    console.log(usersArray,"usersArray")
     this.usersArray = usersArray;
   }
 
   setCurrentUser (currentUser){
     this.currentUser = currentUser;
   }
-
- 
 }
 export default new Users();

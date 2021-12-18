@@ -1,0 +1,8 @@
+.select{
+    width: 250px;
+    height: 30px;
+    border: grey;
+}
+.select:focus{
+    border: grey;
+}

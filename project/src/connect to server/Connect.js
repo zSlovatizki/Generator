@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Users from '../Mobx/users'
+import User from '../Mobx/user'
 import Cables from '../Mobx/cables'
 import { toJS } from 'mobx'
 import { TablePagination } from '@material-ui/core';
@@ -24,7 +25,7 @@ export const FetchCablesByManager = (id_manager) => {
       }
       );
       Cables.cablesStringArr = newArr;
-
+      console.log(toJS(Cables.cablesStringArr))
    })
    // path = [
    //    { lat: 32.0855141, lng: 34.8441714 },
@@ -38,16 +39,42 @@ export const FetchCablesByManager = (id_manager) => {
 }
 
 export const FetchUsers = () => {
-   var list
-   // var json={"userId":,"firstName":"dassi","lastName":"donat","address":"kahaneman 69","phone":"0548543249","Email":"dassid1441@gmail.com","ampereAmount":50.0,"password":"1234","generatorId":2,"status":1}
-   axios.get("https://localhost:44306/api/Values/get"
-   ).then((data) => Users.setUsers(data.data))
+   axios.get("https://localhost:44306/api/User/get"
+   ).then((data) => Users.setUsers(data.data), console.log("con"))
    return (
       <>
       </>
    )
 }
 
+export async function FetchUFullUserDetailsById (id) {
+   var fullDetails;
+    await axios.get(`https://localhost:44306/api/user/GetCompleteUserByID?id=${id}`)
+    .then(((d) => fullDetails = d.data))
+    return fullDetails;
+}
+
+
+export const FetchUserByPassword = (password, email) => {
+   return axios.get(`https://localhost:44306/api/user/GetUserByIdAndPassword?password=${password}&email=${email}`
+   ).then((data) => User.currentUser = data.data)
+}
+
+export const updateUser = (user) => {
+   return axios.post(`https://localhost:44306/api/user/Post`, user
+   ).then()
+}
+
+export async function  getUsersByManagerId (id) {
+   var data;
+   await axios.get(`https://localhost:44306/api/user/GetUsersByIDManager?id=${id}`).then((d)=> data=d.data)
+return data;
+}
+
+export function updateUserUsingInDate()
+{
+//   axios.get(`https://localhost:44306/api/user/GetUsersByIDManager?id=${id}`).then((d)=> data=d.data)
+}
 // export const FetchLoginUser = (id_manager) => {
 //    axios.post("https://localhost:44306/api/login/post?{}"
 //    ).then(({ data }) => console.log(data))
@@ -56,3 +83,12 @@ export const FetchUsers = () => {
 //       </>
 //    )
 // }
+
+
+
+   // export  const AddUser=(name,age,phone)=> {
+   //    axios.post(`${baseURL}CreateChild`,{Name:name,Age:age,Tel:phone})
+   //  .then((response) => {console.log( "create")})
+   //  .catch((error) => {
+   //  console.log("error on save child")
+   //  })}
