@@ -39,8 +39,6 @@ export function CalcLength(coordinateA, coordinateB) {
 }
 
 export function loadToPointInCable(DistanceFromBeginning, loadForAllCable) {
-  
-  //console.log("loadForAllCable", loadForAllCable, "DistanceFromBeginning", DistanceFromBeginning)
   var loadLeftToPoint = loadForAllCable * (1 - ((DistanceFromBeginning / 100) * 0.05));
   return loadLeftToPoint;
 }
@@ -71,13 +69,10 @@ export function CableOfPoint(pointOnCable) {
       }
     })
   })
-  console.log(typeId)
   return { currentCable: currentCable, index: index, thickness: thickness, type: typeId };
 }
 
 export function calcLoadByTypeAndThickness(type, thickness) {
-  console.log("type", type)
-  console.log("thicjness", thickness)
   if (type == 1) {
     switch (thickness) {
       case 1.5: return 10
@@ -124,7 +119,6 @@ export function shortRouteBetweenTwoPoints(set) {
     if (status === window.google.maps.DirectionsStatus.OK) {
       routesResponses.push(response);
       set(response)
-      console.log("r2", response)
     }
     else {
       window.alert('Directions request failed due to ' + status);
@@ -133,22 +127,16 @@ export function shortRouteBetweenTwoPoints(set) {
     //Results analysis and drawing of routes
     var fastest = Number.MAX_VALUE,
       shortest = Number.MAX_VALUE;
-    console.log("routesResponses", routesResponses)
     routesResponses.forEach(function (res) {
       res.routes.forEach(function (rou, index) {
-        console.log("distance of route " + index + ": ", rou.legs[0].distance.value);
-        console.log("duration of route " + index + ": ", rou.legs[0].duration.value);
         if (rou.legs[0].distance.value < shortest) shortest = rou.legs[0].distance.value;
         if (rou.legs[0].duration.value < fastest) fastest = rou.legs[0].duration.value;
 
       })
     })
-    console.log("shortest: ", shortest);
-    console.log("fastest: ", fastest);
     //painting the routes in green blue and red
     routesResponses.forEach(function (res) {
       res.routes.forEach(function (rou, index) {
-        console.log("rou", toJS(rou.overview_path[0]))
         // directionsRenderer({
         //   map: window.google.maps.map,
         //   directions: res,
@@ -164,7 +152,7 @@ export function shortRouteBetweenTwoPoints(set) {
   });
 }
 
-export async function gotAddressNameByLatLng(latLng) {
+export async function getAddressNameByLatLng(latLng) {
   var addressName = "";
   await fetch('https://maps.googleapis.com/maps/api/geocode/json?language=he&address=' + latLng.lat + ',' + latLng.lng + '&key=' + "AIzaSyBwBhST7RvyHmk9JLlkMPHp8LAfY7AqIEw")
     .then((response) => response.json())
@@ -178,9 +166,7 @@ export async function gotAddressNameByLatLng(latLng) {
 }
 
 export function getLatLngFromString(latLngString) {
-  console.log("1",latLngString)
   var latSrt = latLngString.substring(0, latLngString.indexOf(','));
-  console.log("2",latLngString.indexOf)
   var lngStr = latLngString.substring(latLngString.indexOf(',') + 1, latLngString.length);
 
   return { lat: parseFloat(latSrt), lng: parseFloat(lngStr) }

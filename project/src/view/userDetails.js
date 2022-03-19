@@ -53,17 +53,9 @@ export default function UserDetails(props) {
                     <ListItemButton href="#simple-list" onClick={detailsClick}>
                         <ListItemText primary="פרטים" />
                     </ListItemButton>
-                    <ListItemButton href="#simple-list" >
-                        <ListItemText primary="עדכון צריכה" />
-                    </ListItemButton>
                     <ListItemButton href="#simple-list" onClick={addressesClick}>
                         <ListItemText primary="כתובות" />
                     </ListItemButton>
-
-                    {/* <button onClick={usingClick} style={{ height: "50px" }}>גרף צריכה</button>
-                <button onClick={detailsClick} style={{ height: "50px" }}>פרטים</button>
-                <button onClick={updateAmountClick} style={{ height: "50px" }}>הוספת אמפר</button>
-                <button style={{ height: "50px" }}>עדכון צריכה</button> */}
                 </div>
             </Grid>
         </>

@@ -77,7 +77,7 @@ const WithMaterialUI = (props) => {
 
   useEffect(async () => {
     if (userDetails == undefined) {
-      const id = query.get('id');
+      var id = query.get('id');
       var user = await FetchFullUserDetailsById(id)
       setUserDetails(user);
     }

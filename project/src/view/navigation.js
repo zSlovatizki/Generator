@@ -21,14 +21,13 @@ import UpdateDetails from './UpdateUserDetails'
 import UpdateAmountForAdress from './UpdateAmperForUserAdress'
 import Chart from './Chart'
 import UserAddresses from './UserAddresses'
+import AppBar from "./AppBar";
 import AllUsers from "./AllUsers";
 import SignUp from "./SignUp";
 import { createBrowserHistory } from 'history';
 import MyAppBar from "./MyAppBar"
+import WrappedMap from '../mapTwo'
 const history = createBrowserHistory();
-const MapLoader = withScriptjs(Map);
-
-
 
 export default function Navigation() {
     return (
@@ -44,16 +43,13 @@ export default function Navigation() {
                     <Route path="/map" exact>
                         <MyAppBar />
                         <div style={{ width: "100%" }}>
-                            <MapLoader
-                                googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwBhST7RvyHmk9JLlkMPHp8LAfY7AqIEw&libraries=places,drawing,geometry&language=iw"
-                                loadingElement={<div style={{ height: `100%` }} />}
-                            />
+                            <WrappedMap/>
                         </div>
                     </Route>
                     <Route exact path="/">
                         <SignIn />
                     </Route>
-                    <Route exact path="/users" >
+                    <Route exact path="/users">
                         <MyAppBar />
                         <AllUsers />
 
@@ -79,10 +75,6 @@ export default function Navigation() {
                     <Route path="/userDetails/addresses">
                         <MyAppBar />
                         <UserAddresses />
-                    </Route>
-                    <Route path="/userDetails/amuont">
-                        <UpdateAmountForAdress />
-                        <MyAppBar />
                     </Route>
                     <Route path="/addCableMap">
                         <MyAppBar />

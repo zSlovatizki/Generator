@@ -5,10 +5,11 @@ import Navigation from './view/Navigation'
 
 const App = () => {
   return (
-               <MuiThemeProvider>
-
-      <Navigation />
+    <React.StrictMode>
+      <MuiThemeProvider>
+        <Navigation />
       </MuiThemeProvider>
+    </React.StrictMode>
   );
 
 };

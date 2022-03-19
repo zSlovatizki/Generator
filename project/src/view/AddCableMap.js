@@ -1,5 +1,5 @@
 
-import Map from '../Map'
+import Map from '../mapTwo'
 import { useEffect, useState } from 'react'
 import { useLocation } from "react-router-dom";
 import Line from '../UIKit/Line'
@@ -7,18 +7,19 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import { gotAddressNameByLatLng } from '../services/Functions'
+import { getAddressNameByLatLng } from '../services/Functions'
 import { AddCable, addCableToAddress, addAmpereToUser } from '../connect to server/Connect'
 import Cables from '../Mobx/Cables';
 import { toJS } from 'mobx';
+import { Snackbar } from '@mui/material';
+import { Alert } from '@mui/material';
 
 export default function AddCableMap(props) {
 
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
     const [names, setNames] = React.useState([]);
-    const useQuery = () => new URLSearchParams(useLocation().search);
-    const query = useQuery();
+    const [openSuccessMessage, setOpenSuccessMessage] = useState(false)
 
     useEffect(() => {
         updateAdressess();
@@ -27,14 +28,12 @@ export default function AddCableMap(props) {
     async function updateAdressess() {
         var tempArr = []
         await Promise.all(props.polylinesArr.map(async (item) => {
-            await gotAddressNameByLatLng({ lat: item.path[1].lat(), lng: item.path[1].lng() }).then(p => tempArr.push({ name: p, item: item }))
+            await getAddressNameByLatLng({ lat: item.path[1].lat(), lng: item.path[1].lng() }).then(p => tempArr.push({ name: p, item: item }))
         }));
-
+       
         //tempArr.sort((a, b) => (parseFloat(a.item.routeLength) > parseFloat(b.item.routeLength)) ? 1 : ((parseFloat(b.item.routeLength) > parseFloat(a.item.routeLength)) ? -1 : 0))
-     
+
         setNames(tempArr);
-        console.log("pol",props.polylinesArr)
-        console.log("pol",tempArr)
     }
 
     const handleClickOpen = (scrollType) => () => {
@@ -61,33 +60,30 @@ export default function AddCableMap(props) {
     const [cable, setCable] = useState();
     const setSelectedCable = (cable) => {
         setCable(cable);
-        console.log("cable", cable);
     }
 
-    async function addCable () {
-       var path = "";
-       cable.path.map(point => path += point.lat() + "," + point.lng() + " ")
+    async function addCable() {
+        var path = "";
+        cable.path.map(point => path += point.lat() + "," + point.lng() + " ")
         //props.setSelectedCable(cable)
-       console.log("cable", toJS(Cables.cables))
-       var polArr = [];
-       cable.path.map(p => polArr.push({lat: p.lat(), lng: p.lng()}))
-       var cableObj = ({
+        var polArr = [];
+        cable.path.map(p => polArr.push({ lat: p.lat(), lng: p.lng() }))
+        var cableObj = ({
             thickness: cable.thickness,
             path: path,
             generatorId: cable.generatorId,
             type: cable.type
         })
-        if (!props.newAddress)
-        {
-            console.log("kk",props.address)
+        if (!props.newAddress) {
+            setOpenSuccessMessage(true);
             addAmpereToUser(props.address.userAddressID, props.amperAmount)
             var cableId = await AddCable(cableObj).then(result => cableId = result.data);
-            Cables.cables = [...toJS(Cables.cables),{...cableObj,coordinates:polArr, id:cableId}]
-            addCableToAddress(cableId,props.address.userAddressID)
-            props.updateAmperView(props.address.userAddressID,props.amperAmount);
-            //הוספת אמפר לכתובת props.address.useraddressid ,props.amperAmount 
+            Cables.cables = [...toJS(Cables.cables), { ...cableObj, coordinates: polArr, id: cableId }]
+            addCableToAddress(cableId, props.address.userAddressID)
+            props.updateAmperView(props.address.userAddressID, props.amperAmount);
+            console.log("true")
         }
-        else{
+        else {
             props.setSelectedCable(cableObj, polArr, props.address);
         }
         setOpen(false);
@@ -104,13 +100,14 @@ export default function AddCableMap(props) {
                 aria-describedby="scroll-dialog-description"
                 maxWidth={"90%"}
                 fullWidth={true}
-                // fullScreen={true}
                 PaperProps={{ style: { zIndex: 1 } }}
                 componentsProps={{ style: { zIndex: 1 } }}
                 zIndex={1}>
                 <Line swidth={"100%"}>
                     <div style={{ width: "80%" }}>
-                        <Map addresses={names.slice(1, 6)} setSelectedCable={setSelectedCable} polylinesArr={props.polylinesArr.slice(1, 6)} openDrawer={true} ></Map>
+                        {/* {cable && <p>עומס:{cable.load}</p>} */}
+                        {/* {cable && <p>אורך כבל:{cable.routeLength} מטרים</p>} */}
+                        <Map address={props.address} addresses={names.slice(1, 6)} amperTpAdd={props.amperAmount} setSelectedCable={setSelectedCable} polylinesArr={props.polylinesArr.slice(1, 6)} openDrawer={true} />
                     </div>
                 </Line>
                 <DialogActions>
@@ -118,6 +115,12 @@ export default function AddCableMap(props) {
                     <Button onClick={addCable}>הוסף כבל</Button>
                 </DialogActions>
             </Dialog>
-        </div>
+           
+            <Snackbar variant="outlined" autoHideDuration={6000} open={openSuccessMessage} onClose={() => setOpenSuccessMessage(false)} >
+                <Alert severity="success" sx={{ width: '100%' }}>
+                    הכבל נוסף בהצלחה!
+                </Alert>
+            </Snackbar>
+        </div >
     );
 }
