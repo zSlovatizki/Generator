@@ -1,149 +1,268 @@
+import React, { useState } from "react";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Avatar from "@material-ui/core/Avatar";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { toJS } from "mobx";
+import { FetchUserByPassword } from "../connect to server/Connect";
+import { getGeneratorsByManagerId } from "../connect to server/Connect";
+import { FetchCablesByManager } from "../connect to server/Connect";
+import User from "../Mobx/User";
+import { useHistory } from "react-router";
+import Cables from "../Mobx/Cables";
+import { Link } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import rtlPlugin from "stylis-plugin-rtl";
+import { prefixer } from "stylis";
+import { CacheProvider } from "@emotion/react";
+import createCache from "@emotion/cache";
+import { setStorageItem } from "../services/Functions";
+import {
+  DialogActions,
+  DialogTitle,
+} from "@mui/material";
+import { Dialog } from "material-ui";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import { white } from "material-ui/styles/colors";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import FormControl from '@mui/material/FormControl';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
 
-import React from 'react';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Avatar from '@material-ui/core/Avatar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-// import Link from '@material-ui/core/Link';
-import { Link } from 'react-router-dom'
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { toJS } from 'mobx'
-import { FetchUserByPassword } from '../connect to server/Connect';
-
-import User from '../Mobx/user'
-import { useHistory } from 'react-router';
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    // width: "100%", // Fix IE 11 issue.
+    // marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: "rgb(88,88,90)",
+    color: white,
+    "&:hover": {
+      backgroundColor: white,
+      color: "rgb(88,88,90)",
+    },
   },
 }));
 
-const validationSchema =
-  yup.object().shape({
-    email: yup
-      .string('Enter your email')
-      .email('Enter a valid email')
-      .required('Email is required'),
-    password: yup
-      .string('Enter your password')
-      .min(8, 'Password should be of minimum 8 characters length')
-      .required('Password is required'),
-  });
-
+const validationSchema = yup.object().shape({
+  email: yup.string("הכנס מייל").email(" מייל לא חוקי").required("מייל חובה"),
+  password: yup
+    .string("הכנס סיסמא")
+    .required("סיסמא חובה")
+    .matches(
+      /^(?=.*\d).{8,}$/,
+      "סיסמא חייבת להיות באורך 8 תוים ולהכיל סיפרה אחת לפחות"
+    ),
+});
 
 const WithMaterialUI = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const formik = useFormik({
+  const [open, setOpen] = useState(false);
+  const [path, setPath] = useState();
+  const [title, setTitle] = useState();
+  const [buttonText, setButtonText] = useState();
+  const [isButton, setIsButton] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
+  const formik = useFormik({
     initialValues: {
-      email: 'd@gmail.com',
-      password: '12345678'
+      email: "",
+      password: "",
     },
     validationSchema: validationSchema,
 
-
-    onSubmit: (values) => {
-      FetchUserByPassword(values.password, values.email).then(u => {
-        let user = toJS(User.currentUser)
-        user != null ? history.push("/map") : history.push("/sign_up")
-      })
-    }
-
+    onSubmit: async (values) => {
+      var user;
+      const res = await FetchUserByPassword(values.password, values.email);
+      User.currentUser = res;
+      user = res;
+      if (user && user.id) {
+        setStorageItem("user", JSON.stringify(user));
+        await getGeneratorsByManagerId(user.id);
+        await FetchCablesByManager(user.id);
+        console.log(toJS(Cables.cable));
+        history.push("/map");
+      } else {
+        setTitle("הפרטים שהזנת אינם קיימים במערכת..."),
+          setPath("sign_up"),
+          setButtonText("הרשם למערכת"),
+          setIsButton(true),
+          setOpen(true);
+      }
+    },
   });
 
+  let iconPassword = null;
+  if (showPassword) {
+    iconPassword = (
+      <VisibilityOff onClick={(evant) => handleClickShowPassword(evant)} />
+    );
+  } else {
+    iconPassword = (
+      <Visibility onClick={(evant) => handleClickShowPassword(evant)} />
+    );
+  }
 
+  const handleClickShowPassword = (event) => {
+    setShowPassword(!showPassword);
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const [expand, setExpand] = React.useState(false);
+  const toggleAcordion = () => {
+    setExpand((prev) => !prev);
+  };
+  const theme = createTheme({
+    direction: "rtl",
+  });
+
+  const cacheRtl = createCache({
+    key: "muirtl",
+    stylisPlugins: [prefixer, rtlPlugin],
+  });
   return (
-    <div>
+    <div >
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-          </Avatar>
+          <Avatar className={classes.avatar} variant="rounded"></Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            כניסה
           </Typography>
-          <form className={classes.form} onSubmit={formik.handleSubmit}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="email"
-              name="email"
-              label="Email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="password"
-              name="password"
-              label="Password"
-              type="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-            />
-
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign In
-            </Button>
-            {/* <Button color="primary" type="submit">
-              Submit
-            </Button> */}
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/sign_up" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </form>
+          <CacheProvider value={cacheRtl}>
+            <ThemeProvider theme={theme}>
+              <form
+                className={classes.form}
+                onSubmit={formik.handleSubmit}
+                dir="rtl"
+              >
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="email"
+                  name="email"
+                  label="מייל"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                />
+                <TextField
+                  variant="outlined"
+                  className={classes.textField}
+                  password={true}
+                  fullWidth
+                  id="password"
+                  name="password"
+                  label="סיסמא"
+                  type={showPassword ? "text" : "password"}
+                  InputProps={{
+                    endAdornment: iconPassword,
+                  }}
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                  helperText={
+                    formik.touched.password && formik.errors.password
+                  }
+                />
+                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password" fullWidth>סיסמא</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    onChange={formik.handleChange}
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={formik.values.password}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="סיסמא"
+                  />
+                </FormControl>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  className={classes.submit}
+                >
+                  כניסה
+                </Button>
+                <Grid container>
+                  <Grid item>
+                    <Link to="/sign_up" variant="body2">
+                      {"לא רשום במערכת? הרשם"}
+                    </Link>
+                  </Grid>
+                </Grid>
+              </form>
+            </ThemeProvider>
+          </CacheProvider >
         </div>
       </Container>
-    </div>
+      <MuiThemeProvider>
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+          <DialogActions>
+            {isButton && (
+              <Button
+                onClick={() => {
+                  history.push(`/${path}`), setOpen(false);
+                }}
+              >
+                {buttonText}
+              </Button>
+            )}
+            <Button
+              onClick={() => {
+                setOpen(false);
+              }}
+              autoFocus
+            >
+              הבנתי
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </MuiThemeProvider>
+    </div >
   );
 };
 

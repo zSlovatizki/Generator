@@ -1,7 +1,16 @@
 .App {
   text-align: center;
+  direction: rtl;
+  text-align: center;
 }
 /* Navigation{
   width: 900px;
   background-color: aqua;
 } */
+p{
+  direction: rtl;
+  background: green;
+}
+div{
+  direction: rtl;
+}

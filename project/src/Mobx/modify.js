@@ -5,7 +5,6 @@ export default function Modify() {
     
     function handle() {
         Cables.markerAdd=0;
-        console.log("modify", Cables.markerAdd)
     }
     return (
         <>

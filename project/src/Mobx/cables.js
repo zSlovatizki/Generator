@@ -1,22 +1,22 @@
 import { observable, makeObservable,makeAutoObservable  } from 'mobx';
+import { toJS } from 'mobx'
 
 class Cables {
-   @observable  cablesStringArr;
-   @observable  cables;
-   @observable  markerAdd;
+   @observable cables = [];
 
   constructor() {
-     
-     this.cables=null;
-     this.markerAdd=5;
     makeAutoObservable(this)
-    //makeObservable(this)
   }
-
+   
   setHeaders(markerAdd) {
     this.markerAdd = markerAdd;
   }
 
+  removeCable(id)
+  {
+    if (this.cables != null)
+      this.cables = this.cables.filter(cable => cable.id != id)
+  }
  
 }
 

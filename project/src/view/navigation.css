@@ -1,15 +1,35 @@
-.root{
-    height: 100px;
+.root {
+    height: 8vh;
     background-color: #575151;
     color: white;
     align-content: center;
     align-items: center;
-}
+  }
 
-.link{
+.menu {
+    height: 8vh;
+    background-color: #575151;
+    color: white;
+}
+  
+  .link {
     color: white;
     text-decoration: none;
     font-size: x-large;
     text-align: center;
-    margin: 20px;
-}
+    margin: 3vw;
+  }
+  
+  .name {
+    width: "8vh";
+    background-color: "white";
+    color: "#575151";
+    text-align: "center";
+    border-radius: 1;
+  }
+  /*.log_out{
+     padding-right: 20vw;
+    border: 1 solid white; 
+  }*/
+  
+  

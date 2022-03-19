@@ -1,0 +1,10 @@
+.searchInput{
+    width: 250px;
+    margin: 5px;
+}
+
+
+ .autocomplete-dropdown-container{
+    position: "absolute";
+    z-index: 1000;
+ }

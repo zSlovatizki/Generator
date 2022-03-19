@@ -1,7 +1,8 @@
-import './navigation.css'
+import './Navigation.css'
 import Line from '../UIKit/Line'
 import { useHistory } from "react-router-dom";
 import { withScriptjs } from 'react-google-maps';
+import AddCableMap from './AddCableMap'
 import Map from '../Map';
 import {
     BrowserRouter as Router,
@@ -10,50 +11,54 @@ import {
     Redirect,
     Link
 } from "react-router-dom";
-import SignIn from '../view/signIn'
-import Users from '../Mobx/users'
+import SignIn from './SignIn'
+import Users from '../Mobx/Users'
 import App from '../App'
-import PersistentDrawerRight from '../view/drawer'
-import UserTable from './userstTable'
+import UserTable from './UsersTable'
 // import AddUser from './addUser'
-import UserDetails from './userDetails'
-import UpdateDetails from './updateUserDetails'
-import UpdateAmountForAdress from './updateAmountForAdress'
-import Chart from './chart2'
+import UserDetails from './UserDetails'
+import UpdateDetails from './UpdateUserDetails'
+import UpdateAmountForAdress from './UpdateAmperForUserAdress'
+import Chart from './Chart'
+import UserAddresses from './UserAddresses'
+import AllUsers from "./AllUsers";
+import SignUp from "./SignUp";
+import { createBrowserHistory } from 'history';
+import MyAppBar from "./MyAppBar"
+const history = createBrowserHistory();
+const MapLoader = withScriptjs(Map);
+
+
+
 export default function Navigation() {
-    const MapLoader = withScriptjs(Map);
     return (
         <div>
-            <Router>
-                <div className="root" style={{ zIndex: -1 }}>
-                    <Line width="100%">
-                        <Link className="link" to='/map'>map</Link>
-                        <Link className="link" to='/'>home</Link>
-                        <Link className="link" to='/sign_in'>connect</Link>
-                        <Link className="link" to='/users'>users details</Link>
-                        <PersistentDrawerRight></PersistentDrawerRight>
-                    </Line>
-                </div>
+            <Router history={history}>
                 <Switch>
                     <Route path="/sign_in">
                         <SignIn />
                     </Route>
-                    <Route path="/map">
+                    <Route exact path="/sign_up">
+                        <SignUp />
+                    </Route>
+                    <Route path="/map" exact>
+                        <MyAppBar />
                         <div style={{ width: "100%" }}>
                             <MapLoader
-                                googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw1O0w3i7M3WhVhge2UldEhP62AEIJKqc&libraries=places,drawing"
-                                loadingElement={<div style={{ height: `100%` }} onMouseDown={console.log("aaa")}/>}
+                                googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwBhST7RvyHmk9JLlkMPHp8LAfY7AqIEw&libraries=places,drawing,geometry&language=iw"
+                                loadingElement={<div style={{ height: `100%` }} />}
                             />
                         </div>
                     </Route>
                     <Route exact path="/">
-                        {console.log("user",Users.currentUser ) && Users.currentUser ? <Redirect to="/map" /> : <SignIn />}
-                       {/* <Update></Update> */}
-                       {/* <UserTable/> */}
+                        <SignIn />
                     </Route>
-                    <Route exact path="/users">
-                    <UserTable/>
+                    <Route exact path="/users" >
+                        <MyAppBar />
+                        <AllUsers />
+
                     </Route>
+
                     {/* <Route exact path="/update_use">
                     <UpdateUse/>
                     </Route> */}
@@ -61,24 +66,30 @@ export default function Navigation() {
                     <AddUser/>
                     </Route> */}
                     <Route exact path="/userDetails">
-                    <UserDetails/>
+                        {/* <UserDetails/> */}
                     </Route>
                     <Route path="/userDetails/updateDetails">
-                    <UpdateDetails/>
+                        <MyAppBar />
+                        <UpdateDetails />
                     </Route>
                     <Route path="/userDetails/using">
-                    <Chart/>
+                        <MyAppBar />
+                        <Chart />
+                    </Route>
+                    <Route path="/userDetails/addresses">
+                        <MyAppBar />
+                        <UserAddresses />
                     </Route>
                     <Route path="/userDetails/amuont">
-                    <UpdateAmountForAdress/>
+                        <UpdateAmountForAdress />
+                        <MyAppBar />
+                    </Route>
+                    <Route path="/addCableMap">
+                        <MyAppBar />
+                        <AddCableMap />
                     </Route>
                 </Switch>
             </Router>
-            {/* <Line> */}
-               {/* <p>פרטים אישיים</p>
-                <p>פרטי לקוחות</p>
-                <p>סטטיסטיקות</p> */}
-            {/* </Line> */}
         </div>
     )
 }

@@ -1,28 +1,33 @@
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, heIL} from '@mui/x-data-grid';
 import parseName from '@mui/material';
 import { toJS } from 'mobx';
 import { useState, useEffect } from 'react'
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import UpdateUserDetails from './updateUserDetails'
+import UpdateUserDetails from './UpdateUserDetails'
 import * as React from 'react';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteForever from '@material-ui/icons/DeleteForever';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
-import UpdateAmountForAdress from './updateAmountForAdress'
+import UpdateAmountForAdress from './UpdateAmperForUserAdress'
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import Users from '../Mobx/users'
+import Users from '../Mobx/Users'
 import { useHistory } from 'react-router';
-import UserDetails from './userDetails'
-import { getUsersByManagerId } from '../connect to server/Connect'
-import User from '../Mobx/user'
-import {FetchUFullUserDetailsById} from '../connect to server/Connect'
+import UserDetails from './UserDetails'
+import { getUsersByManagerId, deleteUser} from '../connect to server/Connect'
+import User from '../Mobx/User'
+import {FetchFullUserDetailsById} from '../connect to server/Connect'
+import Switch from '@material-ui/core/Switch'
 import {
   GridColumnMenuContainer,
   GridFilterMenuItem,
   SortGridMenuItems
 } from '@material-ui/data-grid';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { heIL as hebrew } from '@mui/material/locale';
 
 export default function DataTable() {
  const [rows, setRows] = useState(toJS(Users.usersArray))
@@ -30,12 +35,24 @@ export default function DataTable() {
     async () => {
       var users = await getUsersByManagerId(toJS(User.currentUser).id);
       setRows(users);
-   
-      console.log("aaaaaaa", toJS(Users.usersArray),rows)
+  
     }, [])
 
   const history = useHistory();
 
+  const theme = createTheme(
+    {
+      direction:'rtl',
+      root:{
+        direction:'rtl',
+      },
+      palette: {
+        primary: { main: '#1976d2' },
+      },
+    },
+    heIL,
+    hebrew,
+  );
 
   const renderDetailsButton = (params) => {
     return (
@@ -46,32 +63,21 @@ export default function DataTable() {
           size="small"
           style={{ marginLeft: 16 }}
           onClick={() => {
-            console.log(toJS(params.row.lastName));
+            deleteUser(params.row.id)
           }}
         >
-          Delete user
+          <DeleteForever/>
             </Button>
       </strong>
     )
   }
-
-  // const renderupdateUseButton = (params) => {
-  //   return (
-  //     <strong>
-  //       <Button
-  //         variant="contained"
-  //         color="primary"
-  //         size="small"
-  //         style={{ marginLeft: 16 }}
-  //         onClick={() => {
-  //           history.push("/update_use")
-  //         }}
-  //       >
-  //         update using
-  //         </Button>
-  //     </strong>
-  //   )
-  // }
+  const renderSwitcButton = (params) => {
+    return (
+      <strong>
+       <Switch disabled  defaultChecked={params.row.status == 1}></Switch>
+      </strong>
+    )
+  }
 
 
   const updateDetails = (params) => {
@@ -82,14 +88,15 @@ export default function DataTable() {
           size="small"
           style={{ marginLeft: 16 }}
           onClick={ async () => {
-              var user = await FetchUFullUserDetailsById(params.row.id)
+              var user = await FetchFullUserDetailsById(params.row.id)
             console.log("full", user)
              setselectedUser(params.row)
-            history.push({pathname:'/userDetails',state:user});
+            history.push({pathname:'/userDetails/updateDetails',state:user});
             // setOpen(true);
 
           }}>
-          update
+            update
+          {/* <EditIcon/> */}
       </Button>
       </strong>
     )
@@ -115,13 +122,6 @@ export default function DataTable() {
   // }
 
   const columns = [
-    {
-      field: 'Delete',
-      headerName: 'Delete',
-      width: 150,
-      renderCell: renderDetailsButton,
-      disableClickEventBubbling: true,
-    },
     // {
     //   field: 'updateUse',
     //   headerName: 'updateUse',
@@ -129,33 +129,106 @@ export default function DataTable() {
     //   renderCell: renderupdateUseButton,
     //   disableClickEventBubbling: true,
     // },
-    {
-      field: 'update',
-      headerName: 'update',
-      width: 150,
-      renderCell: updateDetails,
-      disableClickEventBubbling: true,
-    },
-    { field: 'id', headerName: 'ID', width: 70, sortable: false, disableColumnMenu: true },
-    { field: 'firstName', headerName: 'First name', width: 130 },
-    { field: 'lastName', headerName: 'Last name', width: 130 },
-    { field: 'phone', headerName: 'Phone', width: 130 },
-    { field: 'Email', headerName: 'Email', width: 130 },
-    { field: 'ampereAmount', headerName: 'AmpereAmount', width: 130 },
-    { field: 'password', headerName: 'Password', width: 130 },
-    { field: 'status', headerName: 'Status', width: 130 },
-    // {
-    //   field: 'updtaeAmount',
-    //   headerName: 'update amount',
-    //   width: 150,
-    //   renderCell: updtaeAmountButton,
-    //   disableClickEventBubbling: true,
-    // },
+    { field: 'id', headerName: 'ID', width: 70, sortable: false, disableColumnMenu: true,
+     renderCell: (cellValues) => {
+      return (
+        <div
+          style={{
+            textAlign: "right"
+          }}
+        >
+          {cellValues.value}
+        </div>
+      );
+    }},
+    { field: 'firstName', headerName: 'שם פרטי', width: 130,
+    renderCell: (cellValues) => {
+      return (
+        <div
+          style={{
+            textAlign: "right"
+          }}
+        >
+          {cellValues.value}
+        </div>
+      );
+    }
+   },
+    { field: 'lastName', headerName: 'שם משפחה', width: 130 ,
+    renderCell: (cellValues) => {
+      return (
+        <div
+          style={{
+            textAlign: "right"
+          }}
+        >
+          {cellValues.value}
+        </div>
+      );
+    }
+  },
+    { field: 'phone', headerName: 'פלאפון', width: 130,
+    renderCell: (cellValues) => {
+      return (
+        <div
+          style={{
+            textAlign: "right"
+          }}
+        >
+          {cellValues.value}
+        </div>
+      );
+    }
+   },
+    { field: 'Email', headerName: 'מייל', width: 130 ,
+    renderCell: (cellValues) => {
+      return (
+        <div
+          style={{
+            textAlign: "right"
+          }}
+        >
+          {cellValues.value}
+        </div>
+      );
+    }
+  },
+    { field: 'password', headerName: 'סיסמה', width: 130,
+    renderCell: (cellValues) => {
+      return (
+        <div
+          style={{
+            textAlign: "right"
+          }}
+        >
+          {cellValues.value}
+        </div>
+      );
+    }
+   },
+   {
+    field: 'update',
+    headerName: 'עדכון',
+    width: 150,
+    renderCell: updateDetails,
+    disableClickEventBubbling: true,
+  },
+  {
+    field: 'Delete',
+    headerName: 'מחיקה',
+    width: 150,
+    renderCell: renderDetailsButton,
+    disableClickEventBubbling: true,
+  },
+  {
+    field: 'status', 
+    headerName: 'סטטוס',
+    width: 150,
+    renderCell: renderSwitcButton,
+    disableClickEventBubbling: true,
+  },
   ];
-  // const rows = [
-  //   { id: 1, firstName: 'Jon', com: [{ lat: "20.55996", lng: -88.388832 }], lastName: 'Snow', phone: 35, email: "inj@gmail.com", ampereAmount: 90, password: "ljlk", status: 1 },
-
-  // ];
+ 
 
   const [open, setOpen] = useState(false);
   const [openUpdateAmount, setopenUpdateAmount] = useState(false);
@@ -176,24 +249,19 @@ export default function DataTable() {
   const setSelection = (value) => {
   }
 
-  const addUser = ()=>{
-    history.push("/addUser") 
-  }
-  // const filterListByName=(value)=>{
-  //   rows =toJS(Users.usersArray).map(user=> user.firstName.includes(value));
-  // }
-
   return (
-    <div style={{ height: "80%", width: '100%' }}>
-      {console.log("rows",rows)/* <input onChange={filterListByName()}></input> */}
-      {/* <button onClick={addUser}>add user</button> */}
+    <div style={{ height: "80%", width: '100%' },{direction:"rtl"}}>
+      <ThemeProvider theme={theme}>
       <DataGrid
         rows={rows}
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[5]}
         checkboxSelection
+        style={{  direction: 'rtl'}}
+        dir={"rtl"}
       />
+      </ThemeProvider>
       <div>
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>update details</DialogTitle>
