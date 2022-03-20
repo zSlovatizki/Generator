@@ -156,12 +156,7 @@ export async function getAddressNameByLatLng(latLng) {
   var addressName = "";
   await fetch('https://maps.googleapis.com/maps/api/geocode/json?language=he&address=' + latLng.lat + ',' + latLng.lng + '&key=' + "AIzaSyBwBhST7RvyHmk9JLlkMPHp8LAfY7AqIEw")
     .then((response) => response.json())
-    .then((responseJson) =>
-      addressName =
-      responseJson.results[0].address_components.filter(x => x.types.filter(t => t == 'locality', 'political').length > 0)[0].long_name
-      +" "+
-      responseJson.results[0].address_components.filter(x => x.types.filter(t => t == 'route').length > 0)[0].short_name
-    )
+    .then((responseJson) =>addressName = responseJson.results[0].formatted_address)
   return addressName.toString();
 }
 

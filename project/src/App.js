@@ -4,12 +4,11 @@ import React from 'react';
 import Navigation from './view/Navigation'
 
 const App = () => {
+
   return (
-    <React.StrictMode>
-      <MuiThemeProvider>
+      <MuiThemeProvider>       
         <Navigation />
       </MuiThemeProvider>
-    </React.StrictMode>
   );
 
 };

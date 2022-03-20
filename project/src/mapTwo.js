@@ -62,9 +62,6 @@ function MyComponent(props) {
         { color: "#CC0000", thickness: 6 }, { color: "#FF8800", thickness: 4 }
     ];
 
-
-
-
     //   componentWillMount() {
     //     if (this.props.polylinesArr != undefined)
     //       this.setState({ ...this.state, polylinesArr: this.props.polylinesArr })
@@ -74,9 +71,6 @@ function MyComponent(props) {
     //   }
 
     const onPolylineComplete = (polyline) => {
-
-        console.log("address", props.address);
-
         var connectToCableOrGenerator = false;
         var startOnSelectedAddress = false;
         var generatorId = -1;
@@ -155,10 +149,6 @@ function MyComponent(props) {
 
     const handleCloseCall = () => {
         setIsLoadMessageOpen(false);
-    }
-
-    const style = {
-        border: "#282c34 solid 1px"
     }
 
     const fitBounds = (bounds) => {
