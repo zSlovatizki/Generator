@@ -104,10 +104,10 @@ const WithMaterialUI = () => {
         console.log(toJS(Cables.cable));
         history.push("/map");
       } else {
-        setTitle("הפרטים שהזנת אינם קיימים במערכת..."),
-          setPath("sign_up"),
-          setButtonText("הרשם למערכת"),
-          setIsButton(true),
+        setTitle("הפרטים שהזנת אינם קיימים במערכת...");
+          setPath("sign_up");
+          setButtonText("הרשם למערכת");
+          setIsButton(true);
           setOpen(true);
       }
     },
@@ -245,7 +245,7 @@ const WithMaterialUI = () => {
             {isButton && (
               <Button
                 onClick={() => {
-                  history.push(`/${path}`), setOpen(false);
+                  history.push(`/${path}`); setOpen(false);
                 }}
               >
                 {buttonText}

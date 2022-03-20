@@ -13,7 +13,7 @@ import { scaleBand } from '@devexpress/dx-chart-core';
 import { ArgumentScale, Stack } from '@devexpress/dx-react-chart';
 import Line from '../UIKit/Line'
 import { useLocation } from "react-router-dom";
-import { getUserUsesInYear } from '../connect to server/Connect';
+import { getUserUsesInYear, getUsersUsesInYear} from '../connect to server/Connect';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
