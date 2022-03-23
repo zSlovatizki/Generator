@@ -6,8 +6,7 @@ class Users {
   @observable usersArray = [];
   constructor() {
     this.usersArray = null;
-    makeAutoObservable(this
-    )
+    makeAutoObservable(this)
   }
 
   setUsers(usersArray) {

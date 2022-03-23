@@ -102,13 +102,13 @@ const WithMaterialUI = () => {
         await getGeneratorsByManagerId(user.id);
         await FetchCablesByManager(user.id);
         console.log(toJS(Cables.cable));
-        history.push("/map");
-      } else {
-        setTitle("הפרטים שהזנת אינם קיימים במערכת..."),
-          setPath("sign_up"),
-          setButtonText("הרשם למערכת"),
-          setIsButton(true),
-          setOpen(true);
+        history.push("/map")
+       } else {
+        setTitle("הפרטים שהזנת אינם קיימים במערכת...");
+          setPath("sign_up");
+          setButtonText("הרשם למערכת");
+          setIsButton(true);
+          setOpen(true)
       }
     },
   });
@@ -245,7 +245,7 @@ const WithMaterialUI = () => {
             {isButton && (
               <Button
                 onClick={() => {
-                  history.push(`/${path}`), setOpen(false);
+                  history.push(`/${path}`); setOpen(false);
                 }}
               >
                 {buttonText}

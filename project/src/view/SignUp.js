@@ -160,17 +160,18 @@ export default function SignUp() {
       };
       AddNewUser(user).then(
         (succ) => {
-          succ.data != -1
-            ? (setStorageItem("currentUser", JSON.stringify(user)),
-              setTitle("נרשמת בהצלחה !"),
-              setIsButton(false),
-              setOpen(true),
-              history.push("/map"))
-            : (setTitle("משתמש קיים במערכת !"),
-              setIsButton(true),
-              setButtonText("לכניסה"),
-              setPath("sign_in"),
-              setOpen(true));
+          if(succ.data != -1)
+            {setStorageItem("currentUser", JSON.stringify(user));
+              setTitle("נרשמת בהצלחה !");
+              setIsButton(false);
+              setOpen(true);
+              history.push("/map");
+        }
+            else {setTitle("משתמש קיים במערכת !");
+              setIsButton(true);
+              setButtonText("לכניסה");
+              setPath("sign_in");
+              setOpen(true)}
         },
         (error) => console.log("error on create new user", error)
       );
@@ -206,7 +207,7 @@ export default function SignUp() {
 
   useEffect(() => {
     GetAllManagers().then((data) => {
-      setManagers(data), setSelectedManager(data[0]);
+      setManagers(data); setSelectedManager(data[0]);
     });
   }, []);
 
@@ -375,7 +376,6 @@ export default function SignUp() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                className={classes.submit}
                 sx={{ mt: 3, mb: 2 }}
               >
                 הירשם
@@ -402,7 +402,7 @@ export default function SignUp() {
               {isButton && (
                 <Button
                   onClick={() => {
-                    history.push(`/${path}`), setOpen(false);
+                    history.push(`/${path}`); setOpen(false);
                   }}
                 >
                   {buttonText}

@@ -1,5 +1,5 @@
 import React from 'react'
-import Cables from './cables'
+import Cables from './Cables'
 
 export default function Modify() {
     

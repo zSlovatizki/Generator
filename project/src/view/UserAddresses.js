@@ -13,10 +13,10 @@ import Box2 from '../UIKit/Box'
 import { toJS } from 'mobx';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import TabPanel from '@material-ui/lab/TabPanel';
+import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
-import TabContext from '@material-ui/lab/TabContext';
-import TabList from '@material-ui/lab/TabList';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
 
 export default function UserAddresses(props) {
 

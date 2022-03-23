@@ -10,7 +10,6 @@ const App = () => {
         <Navigation />
       </MuiThemeProvider>
   );
-
 };
 
 export default App;
