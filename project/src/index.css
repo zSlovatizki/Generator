@@ -6,6 +6,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   direction: rtl;
+  background-image: url('./images/תמונה2.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position:center right;
+  background-attachment: fixed;
+  /* background-blend-mode: screen;
+  background-color: rgba(160, 143, 143, 0.589); */
 }
 
 code {

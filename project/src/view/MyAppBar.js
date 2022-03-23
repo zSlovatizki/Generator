@@ -26,7 +26,7 @@ export default function MyAppBar  () {
                         { height: '15vh', width: '25vh', maxHeight: { xs: 233, md: 167 }, maxWidth: { xs: 350, md: 250 } }
                     }
                     alt='The house from the project.'
-                    src='images/logo4.png' />
+                    src='./logo4.png' />
             </Link> <Link className='link'
                 to='/map' >
                 מפה   </Link>   <Link className='link'
