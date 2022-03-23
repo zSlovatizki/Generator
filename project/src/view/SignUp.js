@@ -182,20 +182,7 @@ export default function SignUp() {
       };
       AddNewUser(user).then(
         (succ) => {
-<<<<<<< HEAD
-          if(succ.data != -1)
-            {setStorageItem("currentUser", JSON.stringify(user));
-              setTitle("נרשמת בהצלחה !");
-              setIsButton(false);
-              setOpen(true);
-              history.push("/map");
-        }
-            else {setTitle("משתמש קיים במערכת !");
-              setIsButton(true);
-              setButtonText("לכניסה");
-              setPath("sign_in");
-              setOpen(true)}
-=======
+
           if(succ.data != -1){
             setStorageItem("currentUser", JSON.stringify(user));
             setTitle("נרשמת בהצלחה !");
@@ -210,7 +197,6 @@ export default function SignUp() {
               setPath("sign_in");
               setOpen(true);
           }
->>>>>>> b16975eee9014efe5288d6eefa192a08b51ee89c
         },
         (error) => console.log("error on create new user", error)
       );

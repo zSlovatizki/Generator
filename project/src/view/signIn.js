@@ -141,22 +141,13 @@ const WithMaterialUI = () => {
         await getGeneratorsByManagerId(user.id);
         await FetchCablesByManager(user.id);
         console.log(toJS(Cables.cable));
-<<<<<<< HEAD
-        history.push("/map")
-       } else {
-=======
         history.push("/map");
       } else {
->>>>>>> b16975eee9014efe5288d6eefa192a08b51ee89c
         setTitle("הפרטים שהזנת אינם קיימים במערכת...");
           setPath("sign_up");
           setButtonText("הרשם למערכת");
           setIsButton(true);
-<<<<<<< HEAD
           setOpen(true)
-=======
-          setOpen(true);
->>>>>>> b16975eee9014efe5288d6eefa192a08b51ee89c
       }
     },
   });
