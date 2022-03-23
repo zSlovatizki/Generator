@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
+import TextField from "@mui/material/TextField";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -39,14 +39,19 @@ import InputLabel from '@mui/material/InputLabel';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
+    backgroundColor: '#ffffff87',
+    padding: '30px 20px 25px 20px',
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    "& .MuiGrid-container" : {
+      justifyContent: 'end'
+    }
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#df9a1a',
   },
   form: {
     // width: "100%", // Fix IE 11 issue.
@@ -57,9 +62,43 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgb(88,88,90)",
     color: white,
     "&:hover": {
-      backgroundColor: white,
-      color: "rgb(88,88,90)",
+      backgroundColor: 'rgb(52,51,51)',
+      // color: "rgb(88,88,90)",
     },
+  },
+  link: {
+    color: 'rgb(52,51,51)',
+    "&:hover": {
+      color: '#df9a1a'
+    }
+  },
+  textField: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    // paddingTop: "0",
+    "& .muirtl-md26zr-MuiInputBase-root-MuiOutlinedInput-root": {
+      marginBottom: '10px'
+    },
+    "& label.Mui-focused": {
+      color: "rgb(255,170,23)",
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "rgb(255,170,23)",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "grey",
+      },
+      "&:hover fieldset": {
+        borderColor: "grey",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "rgb(255,170,23)",
+      },
+    },
+    "& .muirtl-154xyx0-MuiInputBase-root-MuiOutlinedInput-root": {
+      cursor: 'pointer'
+    }
   },
 }));
 
@@ -144,11 +183,11 @@ const WithMaterialUI = () => {
     stylisPlugins: [prefixer, rtlPlugin],
   });
   return (
-    <div >
+    <div>
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
           <Avatar className={classes.avatar} variant="rounded"></Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" style={{marginBottom: '10px'}}>
             כניסה
           </Typography>
           <CacheProvider value={cacheRtl}>
@@ -159,8 +198,8 @@ const WithMaterialUI = () => {
                 dir="rtl"
               >
                 <TextField
+                  className={classes.textField}
                   variant="outlined"
-                  margin="normal"
                   fullWidth
                   id="email"
                   name="email"
@@ -171,8 +210,8 @@ const WithMaterialUI = () => {
                   helperText={formik.touched.email && formik.errors.email}
                 />
                 <TextField
-                  variant="outlined"
                   className={classes.textField}
+                  variant="outlined"
                   password={true}
                   fullWidth
                   id="password"
@@ -191,7 +230,7 @@ const WithMaterialUI = () => {
                     formik.touched.password && formik.errors.password
                   }
                 />
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                {/* <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-password" fullWidth>סיסמא</InputLabel>
                   <OutlinedInput
                     fullWidth
@@ -212,7 +251,7 @@ const WithMaterialUI = () => {
                     }
                     label="סיסמא"
                   />
-                </FormControl>
+                </FormControl> */}
                 <Button
                   type="submit"
                   fullWidth
@@ -223,7 +262,7 @@ const WithMaterialUI = () => {
                 </Button>
                 <Grid container>
                   <Grid item>
-                    <Link to="/sign_up" variant="body2">
+                    <Link to="/sign_up" variant="body2" className={classes.link}>
                       {"לא רשום במערכת? הרשם"}
                     </Link>
                   </Grid>

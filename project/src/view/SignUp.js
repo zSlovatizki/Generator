@@ -52,14 +52,23 @@ export default function SignUp() {
       background: theme.palette.background.default,
     },
     paper: {
-      marginTop: theme.spacing(8),
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
+      // marginTop: theme.spacing(8),
+      // display: "flex",
+      // flexDirection: "column",
+      // alignItems: "center",
+        backgroundColor: '#ffffff87',
+        padding: '30px 20px 25px 20px',
+        marginTop: "-5px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        "& .MuiGrid-container" : {
+          justifyContent: 'end'
+        }
     },
     avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
+        margin: theme.spacing(1),
+        backgroundColor: '#df9a1a !important',
     },
     form: {
       display: "flex",
@@ -67,9 +76,18 @@ export default function SignUp() {
       justifyContent: "space-around",
     },
     submit: {
-      margin: theme.spacing(3, 0, 2),
-      color: "rgb(255,170,23)",
-      backgroundColor: "black",
+        margin: theme.spacing(3, 0, 2),
+        backgroundColor: "rgb(88,88,90) !important",
+        color: 'white',
+        "&:hover": {
+        backgroundColor: 'rgb(52,51,51) !important',
+      },
+    },
+    link: {
+      color: 'rgb(52,51,51)',
+      "&:hover": {
+        color: '#df9a1a'
+      }
     },
     textField: {
       marginLeft: "auto",
@@ -77,6 +95,7 @@ export default function SignUp() {
       paddingTop: "0",
       "& label.Mui-focused": {
         color: "rgb(255,170,23)",
+        // marginRight: '25px'
       },
       "& .MuiInput-underline:after": {
         borderBottomColor: "rgb(255,170,23)",
@@ -91,6 +110,9 @@ export default function SignUp() {
         "&.Mui-focused fieldset": {
           borderColor: "rgb(255,170,23)",
         },
+        "&.muirtl-154xyx0-MuiInputBase-root-MuiOutlinedInput-root": {
+          cursor: 'pointer'
+        }
       },
     },
   }));
@@ -228,17 +250,17 @@ export default function SignUp() {
   return (
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" className={classes.paper}>
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 0,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <Avatar className={classes.avatar} variant="rounded">
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -251,7 +273,7 @@ export default function SignUp() {
               sx={{ mt: 3 }}
             >
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={6} sm={6}>
                   <TextField
                     className={classes.textField}
                     autoFocus
@@ -270,7 +292,7 @@ export default function SignUp() {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={6} sm={6}>
                   <TextField
                     className={classes.textField}
                     fullWidth
@@ -288,7 +310,7 @@ export default function SignUp() {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={6} sm={6}>
                   <TextField
                     className={classes.textField}
                     fullWidth
@@ -301,7 +323,7 @@ export default function SignUp() {
                     helperText={formik.touched.phone && formik.errors.phone}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={6} sm={6}>
                   <TextField
                     className={classes.textField}
                     fullWidth
@@ -359,7 +381,7 @@ export default function SignUp() {
                     }
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid container justifyContent="start !important" style={{marginRight:"20px"}}>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -378,14 +400,13 @@ export default function SignUp() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                className={classes.submit}
                 sx={{ mt: 3, mb: 2 }}
               >
                 הירשם
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link to="/sign_in" variant="body2">
+                  <Link to="/sign_in" variant="body2" className={classes.link}>
                     כבר רשום במערכת? היכנס
                   </Link>
                 </Grid>
