@@ -26,7 +26,9 @@ import AllUsers from "./AllUsers";
 import SignUp from "./SignUp";
 import { createBrowserHistory } from 'history';
 import MyAppBar from "./MyAppBar"
-import WrappedMap from '../mapTwo'
+import WrappedMap from '../mapTwo';
+import Message from './Message';
+
 const history = createBrowserHistory();
 
 export default function Navigation() {
@@ -43,7 +45,7 @@ export default function Navigation() {
                     <Route path="/map" exact>
                         <MyAppBar />
                         <div style={{ width: "100%" }}>
-                            <WrappedMap/>
+                            <WrappedMap />
                         </div>
                     </Route>
                     <Route exact path="/">
@@ -52,7 +54,10 @@ export default function Navigation() {
                     <Route exact path="/users">
                         <MyAppBar />
                         <AllUsers />
-
+                    </Route>
+                    <Route exact path="/message">
+                        <MyAppBar />
+                        <Message />
                     </Route>
 
                     {/* <Route exact path="/update_use">
