@@ -6,7 +6,7 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import Box from '@mui/material/Box'
 import './Navigation.css'
 
-export default function MyAppBar  () {
+export default function MyAppBar() {
     const [user, setUser] = useState()
 
     useEffect(() => {

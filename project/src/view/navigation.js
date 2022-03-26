@@ -21,12 +21,12 @@ import UpdateDetails from './UpdateUserDetails'
 import UpdateAmountForAdress from './UpdateAmperForUserAdress'
 import Chart from './Chart'
 import UserAddresses from './UserAddresses'
-import AppBar from "./AppBar";
 import AllUsers from "./AllUsers";
 import SignUp from "./SignUp";
 import { createBrowserHistory } from 'history';
 import MyAppBar from "./MyAppBar"
 import WrappedMap from '../mapTwo'
+import ResponsiveAppBar from './NavBar';
 const history = createBrowserHistory();
 
 export default function Navigation() {
@@ -50,7 +50,8 @@ export default function Navigation() {
                         <SignIn />
                     </Route>
                     <Route exact path="/users">
-                        <MyAppBar />
+                        {/* <MyAppBar /> */}
+                        <ResponsiveAppBar/>
                         <AllUsers />
 
                     </Route>

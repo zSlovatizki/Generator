@@ -45,30 +45,25 @@ export default function SignUp() {
   const useStyles = makeStyles((theme) => ({
     mainBox: {
       position: "relative",
-      marginTop: "-8px",
       padding: "10px 20px",
       borderBottomRightRadius: "4px",
       borderBottomLeftRadius: "4px",
       background: theme.palette.background.default,
     },
     paper: {
-      // marginTop: theme.spacing(8),
-      // display: "flex",
-      // flexDirection: "column",
-      // alignItems: "center",
-        backgroundColor: '#ffffff87',
-        padding: '30px 20px 25px 20px',
-        marginTop: "-5px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        "& .MuiGrid-container" : {
-          justifyContent: 'end'
-        }
+      marginTop: theme.spacing(4),
+      backgroundColor: '#ffffff87',
+      padding: '30px 20px 25px 20px',
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      "& .MuiGrid-container": {
+        justifyContent: 'end'
+      }
     },
     avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: '#df9a1a !important',
+      margin: theme.spacing(1),
+      backgroundColor: '#df9a1a !important',
     },
     form: {
       display: "flex",
@@ -76,10 +71,10 @@ export default function SignUp() {
       justifyContent: "space-around",
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
-        backgroundColor: "rgb(88,88,90) !important",
-        color: 'white',
-        "&:hover": {
+      margin: theme.spacing(3, 0, 2),
+      backgroundColor: "rgb(88,88,90) !important",
+      color: 'white',
+      "&:hover": {
         backgroundColor: 'rgb(52,51,51) !important',
       },
     },
@@ -182,19 +177,19 @@ export default function SignUp() {
       };
       AddNewUser(user).then(
         (succ) => {
-          if(succ.data != -1){
+          if (succ.data != -1) {
             setStorageItem("currentUser", JSON.stringify(user));
             setTitle("נרשמת בהצלחה !");
             setIsButton(false);
             setOpen(true);
             history.push("/map");
           }
-          else{
-              setTitle("משתמש קיים במערכת !");
-              setIsButton(true);
-              setButtonText("לכניסה");
-              setPath("sign_in");
-              setOpen(true);
+          else {
+            setTitle("משתמש קיים במערכת !");
+            setIsButton(true);
+            setButtonText("לכניסה");
+            setPath("sign_in");
+            setOpen(true);
           }
         },
         (error) => console.log("error on create new user", error)
@@ -359,7 +354,7 @@ export default function SignUp() {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                <TextField
+                  <TextField
                     className={classes.textField}
                     fullWidth
                     id="verifyPassword"
@@ -381,7 +376,7 @@ export default function SignUp() {
                     }
                   />
                 </Grid>
-                <Grid container justifyContent="start !important" style={{marginRight:"20px"}}>
+                <Grid container justifyContent="start !important" style={{ marginRight: "20px" }}>
                   <FormControlLabel
                     control={
                       <Checkbox
