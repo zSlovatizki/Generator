@@ -31,5 +31,12 @@
      padding-right: 20vw;
     border: 1 solid white; 
   }*/
+  .editor{
+    color: black;
+    border-color: black;
+    overflow: auto;
+    height: 70vh;
+    max-width: 75vh;
+  }
   
   

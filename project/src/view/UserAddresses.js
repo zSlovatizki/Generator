@@ -59,6 +59,7 @@ export default function UserAddresses(props) {
     useEffect(async () => {
         var names = [];
         if (userDetails != null && userDetails.Addresses != null) {
+            console.log(userDetails.Addresses)
             await Promise.all(userDetails.Addresses.map(async (item, i) => {
                 await getAddressNameByLatLng(getLatLngFromString(item.address)).then(p => names.push({ name: p, ...item, i: i }))
             }))

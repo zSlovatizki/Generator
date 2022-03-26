@@ -152,6 +152,7 @@ export function shortRouteBetweenTwoPoints(set) {
 }
 
 export async function getAddressNameByLatLng(latLng) {
+  console.log("latlng",latLng)
   var addressName = "";
   await fetch('https://maps.googleapis.com/maps/api/geocode/json?language=he&address=' + latLng.lat + ',' + latLng.lng + '&key=' + "AIzaSyBwBhST7RvyHmk9JLlkMPHp8LAfY7AqIEw")
     .then((response) => response.json())

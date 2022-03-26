@@ -1,27 +1,14 @@
 import './Navigation.css'
-import Line from '../UIKit/Line'
-import { useHistory } from "react-router-dom";
-import { withScriptjs } from 'react-google-maps';
 import AddCableMap from './AddCableMap'
-import Map from '../Map';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Redirect,
-    Link
 } from "react-router-dom";
 import SignIn from './SignIn'
-import Users from '../Mobx/Users'
-import App from '../App'
-import UserTable from './UsersTable'
-// import AddUser from './addUser'
-import UserDetails from './UserDetails'
 import UpdateDetails from './UpdateUserDetails'
-import UpdateAmountForAdress from './UpdateAmperForUserAdress'
 import Chart from './Chart'
 import UserAddresses from './UserAddresses'
-import AppBar from "./AppBar";
 import AllUsers from "./AllUsers";
 import SignUp from "./SignUp";
 import { createBrowserHistory } from 'history';
