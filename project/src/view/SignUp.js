@@ -177,7 +177,8 @@ export default function SignUp() {
       };
       AddNewUser(user).then(
         (succ) => {
-          if (succ.data != -1) {
+
+          if(succ.data != -1){
             setStorageItem("currentUser", JSON.stringify(user));
             setTitle("נרשמת בהצלחה !");
             setIsButton(false);

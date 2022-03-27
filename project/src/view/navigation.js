@@ -1,32 +1,22 @@
 import './Navigation.css'
-import Line from '../UIKit/Line'
-import { useHistory } from "react-router-dom";
-import { withScriptjs } from 'react-google-maps';
 import AddCableMap from './AddCableMap'
-import Map from '../Map';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Redirect,
-    Link
 } from "react-router-dom";
 import SignIn from './SignIn'
-import Users from '../Mobx/Users'
-import App from '../App'
-import UserTable from './UsersTable'
-// import AddUser from './addUser'
-import UserDetails from './UserDetails'
 import UpdateDetails from './UpdateUserDetails'
-import UpdateAmountForAdress from './UpdateAmperForUserAdress'
 import Chart from './Chart'
 import UserAddresses from './UserAddresses'
 import AllUsers from "./AllUsers";
 import SignUp from "./SignUp";
 import { createBrowserHistory } from 'history';
-import MyAppBar from "./MyAppBar"
-import WrappedMap from '../mapTwo'
-import ResponsiveAppBar from './NavBar';
+// import MyAppBar from "./MyAppBar";
+import MyAppBar from './NavBar';
+import WrappedMap from '../mapTwo';
+import Message from './Message';
+
 const history = createBrowserHistory();
 
 export default function Navigation() {
@@ -42,18 +32,21 @@ export default function Navigation() {
                     </Route>
                     <Route path="/map" exact>
                         <MyAppBar />
-                        <div style={{ width: "100%" }}>
-                            <WrappedMap/>
-                        </div>
+                        {/* <div style={{ width: "100%", marginTop:"10vh"}}> */}
+                            <WrappedMap />
+                        {/* </div> */}
                     </Route>
                     <Route exact path="/">
                         <SignIn />
                     </Route>
                     <Route exact path="/users">
                         {/* <MyAppBar /> */}
-                        <ResponsiveAppBar/>
+                        <MyAppBar/>
                         <AllUsers />
-
+                    </Route>
+                    <Route exact path="/message">
+                        <MyAppBar />
+                        <Message />
                     </Route>
 
                     {/* <Route exact path="/update_use">

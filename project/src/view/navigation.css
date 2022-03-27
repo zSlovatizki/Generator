@@ -1,35 +1,53 @@
-.root {
-    height: 8vh;
-    background-color: #575151;
-    color: white;
-    align-content: center;
-    align-items: center;
+.appBar {
+    /* height: 8vh; */
+    background-color: #575151 !important;
+    color: white !important;
   }
 
-.menu {
-    height: 8vh;
-    background-color: #575151;
-    color: white;
+.css-6hp17o-MuiList-root-MuiMenu-list {
+    background-color: white;
+    display: flex !important;
+    flex-direction: column;
 }
   
   .link {
+    color: #575151;
+    text-decoration: none;
+    /* font-size: x-large; */
+    padding: 10px;
+    width: 100px;
+  }
+  .linkMenu{
     color: white;
     text-decoration: none;
-    font-size: x-large;
+    padding: 24px;
+    width: 100px;
     text-align: center;
-    margin: 3vw;
   }
+  .linkMenu:focus {
+    border-bottom: solid 3px rgb(238, 158, 10);
+  }
+  /* .menuCenter{
+    text-align: center;
+  } */
   
-  .name {
+  /* .name {
     width: "8vh";
     background-color: "white";
     color: "#575151";
     text-align: "center";
     border-radius: 1;
-  }
+  } */
   /*.log_out{
      padding-right: 20vw;
     border: 1 solid white; 
   }*/
+  .editor{
+    color: black;
+    border-color: black;
+    overflow: auto;
+    height: 70vh;
+    max-width: 75vh;
+  }
   
   

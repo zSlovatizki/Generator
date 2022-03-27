@@ -24,6 +24,7 @@ import Switch from '@material-ui/core/Switch'
 import DeleteIcon from "@mui/icons-material/Delete";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { heIL as hebrew } from '@mui/material/locale';
+import { setStorageItem } from '../services/Functions';
 
 export default function DataTable() {
   const [rows, setRows] = useState(toJS(Users.usersArray))
@@ -82,11 +83,10 @@ export default function DataTable() {
           style={{ textAlign: "center" }}
           onClick={async () => {
             var user = await FetchFullUserDetailsById(params.row.id)
-            console.log("full", user)
+            setStorageItem("currentUser",JSON.stringify(user));
             setselectedUser(params.row)
             history.push({ pathname: `/userDetails/updateDetails`, search: `id=${user.ID}`, state: user });
             // setOpen(true);
-
           }}>
           <EditIcon/>
         </Button>
@@ -94,33 +94,7 @@ export default function DataTable() {
     )
   }
 
-  // const updtaeAmountButton = (params) => {
-  //   return (
-  //     <strong>
-  //       <Button
-  //         variant="contained"
-  //         color="primary"
-  //         size="small"
-  //         style={{ marginLeft: 16 }}
-  //         onClick={() => {
-  //           setselectedUser(params.row);
-  //           setopenUpdateAmount(true);
-  //         }}
-  //       >
-  //         update amount
-  //           </Button>
-  //     </strong>
-  //   )
-  // }
-
   const columns = [
-    // {
-    //   field: 'updateUse',
-    //   headerName: 'updateUse',
-    //   width: 150,
-    //   renderCell: renderupdateUseButton,
-    //   disableClickEventBubbling: true,
-    // },
     {
       field: 'id', headerName: 'ID', width: 70, sortable: false, disableColumnMenu: true,
       renderCell: (cellValues) => {
@@ -249,7 +223,7 @@ export default function DataTable() {
   }
 
   return (
-    <div style={{ height: "80%", width: '100%' }, { direction: "rtl" }}>
+    <div >
       <ThemeProvider theme={theme}>
         <DataGrid
           rows={rows}

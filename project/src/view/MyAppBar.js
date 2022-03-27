@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Line from '../UIKit/Line'
 import { Link } from 'react-router-dom'
-import { getStorageItem } from '../services/Functions'
+import { clearSessionStorage, getStorageItem } from '../services/Functions'
 import LogoutIcon from '@mui/icons-material/Logout'
 import Box from '@mui/material/Box'
 import './Navigation.css'
@@ -33,8 +33,17 @@ export default function MyAppBar() {
                     to='/sign_in' >
                 התחברות   </Link>   <Link className='link'
                     to='/users' >
-                פרטי משתמשים   </Link> <div className='log_out'><Link className='link'
-                    to='/sign_in' >   <LogoutIcon />
-                </Link>   {
-                    user && (< Box component='span' > {user.firstName + ' ' + user.lastName} </Box>)} </div></Line >   </ div>)
+                פרטי משתמשים   </Link>
+            <Link className='link' to='/message'>
+                הודעות
+            </Link>
+            <div className='log_out' onClick={() => clearSessionStorage()}><Link className='link'
+                to='/sign_in' >   <LogoutIcon />
+            </Link>   {
+                    user && (< Box component='span' > {user.firstName + ' ' + user.lastName} </Box>)} </div>
+
+        </Line >
+    </ div>
+
+    )
 }

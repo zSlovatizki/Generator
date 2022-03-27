@@ -147,7 +147,7 @@ const WithMaterialUI = () => {
           setPath("sign_up");
           setButtonText("הרשם למערכת");
           setIsButton(true);
-          setOpen(true);
+          setOpen(true)
       }
     },
   });

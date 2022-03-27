@@ -12,8 +12,7 @@ import {
 export function lengthForCable(coordinatesArr) {
   var lengthFromStart = 0;
   coordinatesArr.map((point, i) => {
-    if (i < coordinatesArr.length - 1)
-    {
+    if (i < coordinatesArr.length - 1) {
       var l = (window.google.maps.geometry.spherical.computeDistanceBetween(toJS(point), toJS(coordinatesArr[i + 1]))).toFixed(2)
       lengthFromStart += parseFloat(l);
     }
@@ -153,10 +152,11 @@ export function shortRouteBetweenTwoPoints(set) {
 }
 
 export async function getAddressNameByLatLng(latLng) {
+  console.log("latlng",latLng)
   var addressName = "";
   await fetch('https://maps.googleapis.com/maps/api/geocode/json?language=he&address=' + latLng.lat + ',' + latLng.lng + '&key=' + "AIzaSyBwBhST7RvyHmk9JLlkMPHp8LAfY7AqIEw")
     .then((response) => response.json())
-    .then((responseJson) =>addressName = responseJson.results[0].formatted_address)
+    .then((responseJson) => addressName = responseJson.results[0].formatted_address)
   return addressName.toString();
 }
 
@@ -173,4 +173,7 @@ export function setStorageItem(key, value) {
 
 export function getStorageItem(key) {
   return window.sessionStorage.getItem(key);
+}
+export function clearSessionStorage() {
+  window.sessionStorage.clear();
 }

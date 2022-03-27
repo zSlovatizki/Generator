@@ -5,13 +5,15 @@ import { useLocation } from "react-router-dom";
 import ListItem from '@mui/material/ListItem';
 import { ListItemButton } from '@mui/material';
 import { ListItemText } from '@mui/material';
+import { getStorageItem } from "../services/Functions";
 
 export default function UserDetails(props) {
 
     const [user, setUser] = useState(null)
 
     useEffect(() => {
-        setUser(props.userDetails);
+        var currentUser=JSON.parse(getStorageItem("currentUser"))
+        setUser(currentUser);
     }, [])
 
     const history = useHistory();

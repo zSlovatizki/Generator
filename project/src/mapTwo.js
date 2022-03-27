@@ -272,7 +272,7 @@ function MyComponent(props) {
     }, [])
 
     return isLoaded ? (
-        <>
+        <div style={{marginTop: '10vh'}}>
             <Line>
                 <PlacesAutoComplete onSelectionChanged={handlPlaceSelect} />
                 {props.addresses && <div>
@@ -394,7 +394,7 @@ function MyComponent(props) {
                 <button onClick={() => addCableClick()}>{addressToAddCableTo ? "אשר" : "הוסף כבל"}</button>
                 <button onClick={() => { setNewPolyline(null); setOpenDialog(false); setShowLowLoadWarning(false) }}>בטל</button>
             </Dialog>
-        </>
+        </div>
     ) : <></>
 }
 
