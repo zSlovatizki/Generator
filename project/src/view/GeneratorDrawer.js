@@ -102,8 +102,8 @@ export default function AddGeneratorDrawer(props) {
   useEffect(() => {
     //setOpen(props.openDrawer)
     setOpen(false)
-
-  }, [])
+    console.log('render first')
+  },[])
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -115,10 +115,11 @@ export default function AddGeneratorDrawer(props) {
 
   return (
     <div className={classes.root} style={{ zIndex:1,direction:"rtl"}}>
-      <IconButton
+      { open === false?
+      (<IconButton
         onClick={handleDrawerOpen}
         title="הוספת גנרטור"
-        className={clsx(open && classes.hide)}
+        // className={clsx(open && classes.hide)}
         // style={{borderRadius:"50%"},{border:"black solid 3px"}}
         style={{
           zIndex: 1,
@@ -137,7 +138,8 @@ export default function AddGeneratorDrawer(props) {
         </svg> */}
         <Add/>
         {/* <MenuIcon></MenuIcon> */}
-      </IconButton>
+      </IconButton>):null
+     }
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open,

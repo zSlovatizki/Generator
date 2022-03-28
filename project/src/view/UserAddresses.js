@@ -16,13 +16,23 @@ import Tabs from '@mui/material/Tabs';
 import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import TabContext from '@mui/lab/TabContext';
+// import TabContext from '@material-ui/lab/TabContext';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import TabList from '@mui/lab/TabList';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-// const useStyles = makeStyles((theme) => ({
-
-// }));
+const useStyles = makeStyles((theme) => ({
+    nav:{
+        color:'#575151',
+        "& .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected":{
+            color: '#575151 !important',
+            fontWeight: '600',
+        },
+    }
+}));
 export default function UserAddresses(props) {
 
+    const classes = useStyles();
     const location = useLocation();
     const [awaitNames, setAwait] = useState(false)
     const [addressesNames, setaddressesNames] = useState();
@@ -85,7 +95,7 @@ export default function UserAddresses(props) {
             setawait2(true);
             inReneder = false;
         }
-       
+
     }, [userDetails])
 
     useEffect(() => {
@@ -120,7 +130,7 @@ export default function UserAddresses(props) {
     }
 
     const updateNewAddress = (flag, newAddress) => {
-    
+
         if (flag) {
             setTabsValues([...tabsValues, { value: '1', canAdd: false }])
             getAddressNameByLatLng(getLatLngFromString(newAddress.address)).then(name => {
@@ -136,15 +146,14 @@ export default function UserAddresses(props) {
         var tabValues = [];
 
         console.log("add", userDetails.Addresses);
-        userDetails.Addresses.map((address, i) =>{
-            if (address.userAddressID != id)
-            {
+        userDetails.Addresses.map((address, i) => {
+            if (address.userAddressID != id) {
                 addresses.push(address);
                 tabValues.push(tabsValues[i]);
             }
         })
         setTabsValues(tabsValues);
-        setUserDetails({...userDetails, Addresses:addresses});
+        setUserDetails({ ...userDetails, Addresses: addresses });
     }
 
     const handleChange = (newValue, index) => {
@@ -182,6 +191,7 @@ export default function UserAddresses(props) {
         <UserDetails />
             {/* {userDetails && <UserDetails userDetails={userDetails} />} */}
             <Box2>
+                {!awaitNames && <CircularProgress disableShrink />}
                 {awaitNames && userDetails.Addresses.map((address, i) =>
                     <Accordion
                      style={{ width: 450 }}>
@@ -197,12 +207,9 @@ export default function UserAddresses(props) {
                                         <TabList TabIndicatorProps={{
                                             style: {
                                                 backgroundColor: "#FAA51A",
-                                                color:'black',
-                                                "&.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected":{
-                                                    color:'red !important'
-                                                }
+                                                color:'black'
                                             },
-                                        }} onChange={(e, v) => handleChange(v, i)} aria-label="lab API tabs example">
+                                        }} className={classes.nav} onChange={(e, v) => handleChange(v, i)} aria-label="lab API tabs example">
                                             <Tab label="הוספת אמפר לכתובת" value="1" />
                                             <Tab label="הוספת שימושיות לחודש" value="2" />
                                         </TabList>
@@ -214,8 +221,8 @@ export default function UserAddresses(props) {
                                         {tabsValues[i].canAdd && <div key={address.userAddressID + i}>
                                             <p>הוספת שימושיות לחודש </p>
                                             <p>כמות אמפר:</p>
-                                            <input type="number" defaultValue="0" value={usingInputValue[i]} onChange={(e) => updateUsingToAddress(e.target.value, i)} />
-                                            <button onClick={() => { addUserUsesForDate(address.userAddressID, i) }}>עדכן</button>
+                                            <input style={{marginBottom:'5px'}} type="number" defaultValue="0" value={usingInputValue[i]} onChange={(e) => updateUsingToAddress(e.target.value, i)} /><br/>
+                                            <Button style={{backgroundColor: '#575151', color: 'white', width:'80%'}} onClick={() => { addUserUsesForDate(address.userAddressID, i) }}>עדכן</Button>
                                         </div>}
                                         {!tabsValues[i].canAdd && <p key={tabsValues[i].canAdd}>כבר עודכנה צריכה לחודש זה</p>}
                                     </TabPanel>

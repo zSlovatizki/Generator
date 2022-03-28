@@ -7,13 +7,15 @@ import { toJS } from "mobx";
 import Button from "@material-ui/core/Button";
 import '../Map.css';
 import { Toast } from 'primereact/toast';
+import { Snackbar } from '@mui/material';
+import { Alert } from '@mui/material';
 
 export default function AddCable(props) {
 
   const [selectedCoordinate, setSelectedCoordinate] = useState(null);
   const [amount, setAmount] = useState(0);
   const [showWarning, setshowWarning] = useState(false);
-
+  const [openSuccessMessage, setOpenSuccessMessage] = useState(false);
   function onSelect(address) {
     if (address == null)
       return;
@@ -28,10 +30,13 @@ export default function AddCable(props) {
       Genrator.addGenerator(selectedCoordinate, amount);
       var generatorDetails = {
         userID: toJS(User).currentUser.id,
-        address: selectedCoordinate.lat + " " + selectedCoordinate.lng,
+
+        address: selectedCoordinate.lat + "," + selectedCoordinate.lng,
         amperAmount: amount
       }
       AddGenerator(generatorDetails);
+      setOpenSuccessMessage(true);
+      setAmount(0);
     }
     else setshowWarning(true);
   }
@@ -73,6 +78,11 @@ export default function AddCable(props) {
       >
         הוספת גנרטור
       </Button>
+      <Snackbar variant="outlined" autoHideDuration={6000} open={openSuccessMessage} onClose={() => setOpenSuccessMessage(false)} >
+        <Alert severity="success" sx={{ width: '100%' }}>
+          הגנרטור נוסף בהצלחה!
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

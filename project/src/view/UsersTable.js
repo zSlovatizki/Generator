@@ -235,6 +235,7 @@ export default function DataTable() {
         />
         </div>
       {/* </ThemeProvider> */}
+
       <div>
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>update details</DialogTitle>

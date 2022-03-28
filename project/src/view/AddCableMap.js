@@ -13,6 +13,7 @@ import Cables from '../Mobx/Cables';
 import { toJS } from 'mobx';
 import { Snackbar } from '@mui/material';
 import { Alert } from '@mui/material';
+import { useTheme, makeStyles } from "@material-ui/core/styles";
 
 export default function AddCableMap(props) {
 
@@ -20,6 +21,16 @@ export default function AddCableMap(props) {
     const [scroll, setScroll] = React.useState('paper');
     const [names, setNames] = React.useState([]);
     const [openSuccessMessage, setOpenSuccessMessage] = useState(false)
+
+    const useStyles = makeStyles((theme) => ({
+        dialog: {
+            "& + .pac-container": {
+                zIndex: theme.zIndex.modal + 1
+            }
+        }
+    }));
+
+    const classes = useStyles();
 
     useEffect(() => {
         updateAdressess();
@@ -30,7 +41,7 @@ export default function AddCableMap(props) {
         await Promise.all(props.polylinesArr.map(async (item) => {
             await getAddressNameByLatLng({ lat: item.path[1].lat(), lng: item.path[1].lng() }).then(p => tempArr.push({ name: p, item: item }))
         }));
-       
+
         //tempArr.sort((a, b) => (parseFloat(a.item.routeLength) > parseFloat(b.item.routeLength)) ? 1 : ((parseFloat(b.item.routeLength) > parseFloat(a.item.routeLength)) ? -1 : 0))
 
         setNames(tempArr);
@@ -63,6 +74,8 @@ export default function AddCableMap(props) {
     }
 
     async function addCable() {
+        if (!cable)
+            return;
         var path = "";
         cable.path.map(point => path += point.lat() + "," + point.lng() + " ")
         //props.setSelectedCable(cable)
@@ -80,7 +93,7 @@ export default function AddCableMap(props) {
             var cableId = await AddCable(cableObj).then(result => cableId = result.data);
             Cables.cables = [...toJS(Cables.cables), { ...cableObj, coordinates: polArr, id: cableId }]
             addCableToAddress(cableId, props.address.userAddressID)
-            props.updateAmperView(props.address.userAddressID, props.amperAmount);
+            props.updateAmperView(props.address.userAddressID, props.amperAmount, cableId);
             console.log("true")
         }
         else {
@@ -93,6 +106,7 @@ export default function AddCableMap(props) {
     return (
         <div style={{ width: "100%" }}>
             <Dialog
+                className={classes.dialog}
                 open={open}
                 onClose={handleClose}
                 scroll={scroll}
@@ -103,11 +117,14 @@ export default function AddCableMap(props) {
                 PaperProps={{ style: { zIndex: 1 } }}
                 componentsProps={{ style: { zIndex: 1 } }}
                 zIndex={1}>
-                <Line swidth={"100%"}>
-                    <div style={{ width: "80%" }}>
-                        {/* {cable && <p>עומס:{cable.load}</p>} */}
-                        {/* {cable && <p>אורך כבל:{cable.routeLength} מטרים</p>} */}
-                        <Map address={props.address} addresses={names.slice(1, 6)} amperTpAdd={props.amperAmount} setSelectedCable={setSelectedCable} polylinesArr={props.polylinesArr.slice(1, 6)} openDrawer={true} />
+                <Line margin={0} width={"100%"}>
+                    <div style={{width:"200px"}}>
+                        {<h3>נתוני כבל בחור:</h3>}
+                        {<p>עומס: {cable ? cable.load : 0} אמפר</p>}
+                        {<p>אורך כבל: {cable ? cable.routeLength : 0} מ</p>}
+                    </div>
+                    <div>
+                    <Map width={"90%"} address={props.address} addresses={names.slice(1, 6)} amperToAdd={props.amperAmount} setSelectedCable={setSelectedCable} polylinesArr={props.polylinesArr.slice(1, 6)} openDrawer={true} />
                     </div>
                 </Line>
                 <DialogActions>
@@ -115,7 +132,7 @@ export default function AddCableMap(props) {
                     <Button onClick={addCable}>הוסף כבל</Button>
                 </DialogActions>
             </Dialog>
-           
+
             <Snackbar variant="outlined" autoHideDuration={6000} open={openSuccessMessage} onClose={() => setOpenSuccessMessage(false)} >
                 <Alert severity="success" sx={{ width: '100%' }}>
                     הכבל נוסף בהצלחה!
