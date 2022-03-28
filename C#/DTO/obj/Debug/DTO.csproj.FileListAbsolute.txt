@@ -22,3 +22,9 @@ C:\Users\user1\Desktop\פרויקט\Generatorפרויקט\C#\DTO\obj\Debug\DTO.c
 C:\Users\user1\Desktop\פרויקט\Generatorפרויקט\C#\DTO\obj\Debug\DTO.csproj.CoreCompileInputs.cache
 C:\Users\user1\Desktop\פרויקט\Generatorפרויקט\C#\DTO\obj\Debug\DTO.dll
 C:\Users\user1\Desktop\פרויקט\Generatorפרויקט\C#\DTO\obj\Debug\DTO.pdb
+C:\Users\ברכי אביטן\Downloads\jm_XIIXbcYh60i9aAc\projectNew\Generator\C#\DTO\bin\Debug\DTO.dll
+C:\Users\ברכי אביטן\Downloads\jm_XIIXbcYh60i9aAc\projectNew\Generator\C#\DTO\bin\Debug\DTO.pdb
+C:\Users\ברכי אביטן\Downloads\jm_XIIXbcYh60i9aAc\projectNew\Generator\C#\DTO\obj\Debug\DTO.csprojAssemblyReference.cache
+C:\Users\ברכי אביטן\Downloads\jm_XIIXbcYh60i9aAc\projectNew\Generator\C#\DTO\obj\Debug\DTO.csproj.CoreCompileInputs.cache
+C:\Users\ברכי אביטן\Downloads\jm_XIIXbcYh60i9aAc\projectNew\Generator\C#\DTO\obj\Debug\DTO.dll
+C:\Users\ברכי אביטן\Downloads\jm_XIIXbcYh60i9aAc\projectNew\Generator\C#\DTO\obj\Debug\DTO.pdb

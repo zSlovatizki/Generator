@@ -60,7 +60,7 @@ export default function Using() {
         <div>
             <UserDetails />
             <Line>
-                <div style={{ width: "80%", backgroundColor:'#ffffff87', marginRight:'200px'}}>
+                <div style={{ width: "60%", backgroundColor:'rgb(231, 235, 240)', marginRight:'auto',marginLeft:'auto'}}>
                     <Line>
                         <div style={{ width: "15px", height: "15px", background: "#ff7043", margin: "10px" }} />
                         <p>ממוצע צריכה כללי</p>
@@ -71,8 +71,9 @@ export default function Using() {
                     </Line>
                     {/* <Paper width="100%"> */}
                     <Chart
+                       height="350"
                         data={data}
-                        width="100%">
+                        width="60%">
                         <ArgumentScale factory={scaleBand} />
                         <ArgumentAxis />
                         <ValueAxis />

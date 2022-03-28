@@ -181,14 +181,14 @@ export default function UserAddresses(props) {
             <Box2>
                 {awaitNames && userDetails.Addresses.map((address, i) =>
                     <Accordion
-                     style={{ width: 400 }}>
+                     style={{ width: 450 }}>
                         <AccordionSummary expandIcon={<ExpandMore />}
                         >
                             <p>{addressesNames[i].name} אמפר: {address.ampereAmount}</p>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <div>
-                                <Button onClick={() => deleteAddress(address.userAddressID)}><DeleteIcon style={{color:'#58585A'}}/></Button>
+                            <div style={{alignItems:'center'}}>
+                                <Button onClick={() => deleteAddress(address.userAddressID)}><DeleteIcon style={{color:'rgb(255,170,23)'}}/></Button>
                                 {await2 && <TabContext value={tabsValues[i].value}>
                                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                         <TabList TabIndicatorProps={{
@@ -218,11 +218,11 @@ export default function UserAddresses(props) {
                         </AccordionDetails>
                     </Accordion>)
                 }
-                {awaitNames && <Accordion toggleAcordion={false} style={{ width: 400 }}>
+                {awaitNames && <Accordion toggleAcordion={false} style={{ width: 450 }}>
                     <AccordionSummary expandIcon={<AddIcon />}>
                         <p>הוסף כתובת חדשה</p>
                     </AccordionSummary>
-                    <AccordionDetails style={{ height: 400 }, { display: "block" }}>
+                    <AccordionDetails style={{ height: 400 ,  display: "block" }}>
                         <PlacesAutoComplete onSelectionChanged={handlNewAddressSelect} />
                         {newAddress && <UpdateAmountForAdress updateNewAddress={updateNewAddress} address={newAddress} newAddress={true} />}
                     </AccordionDetails>

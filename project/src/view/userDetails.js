@@ -55,7 +55,7 @@ export default function UserDetails(props) {
                     <ListItemButton href="#simple-list" onClick={usingClick} style={{color:'rgb(66, 64, 64)', fontSize:'20px', padding:'10px'}}>
                          <AutoGraphIcon/><ListItemText primary="גרף צריכה" />
                     </ListItemButton>
-                    <ListItemButton href="#simple-list" onClick={detailsClick} style={{color:'rgb(100, 96, 96)', padding:'10px'}}>
+                    <ListItemButton href="#simple-list" onClick={detailsClick} style={{color:'#978e8e', padding:'10px'}}>
                          <GradingIcon/><ListItemText primary="פרטים" />
                     </ListItemButton>
                     <ListItemButton href="#simple-list" onClick={addressesClick} style={{color:'rgb(255,170,23)', padding:'10px'}}>
