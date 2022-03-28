@@ -27,10 +27,17 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+    marginRight:'auto !important',
+     marginLeft:'auto !important',
+     backgroundColor:'#ffffff87',
+     padding:'15px'
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  line:{
+    width:'80%'
+  }
 }));
 
 const validationSchema =
@@ -101,8 +108,9 @@ const WithMaterialUI = (props) => {
 
   return (
     <>
-      <Line>
-        {userDetails.ID && <UserDetails userDetails={userDetails} />}
+    <UserDetails/>
+      <Line className={classes.line}>
+        {/* {userDetails.ID && <UserDetails userDetails={userDetails} />} */}
         {/* <UserDetails /> */}
         <form className={classes.form} onSubmit={formik.handleSubmit} style={{ width: "500px" }}>
           <TextField

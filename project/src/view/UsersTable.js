@@ -95,20 +95,20 @@ export default function DataTable() {
   }
 
   const columns = [
-    {
-      field: 'id', headerName: 'ID', width: 70, sortable: false, disableColumnMenu: true,
-      renderCell: (cellValues) => {
-        return (
-          <div
-            style={{
-              textAlign: "right"
-            }}
-          >
-            {cellValues.value}
-          </div>
-        );
-      }
-    },
+    // {
+    //   field: 'id', headerName: 'ID', width: 70, sortable: false, disableColumnMenu: true,
+    //   renderCell: (cellValues) => {
+    //     return (
+    //       <div
+    //         style={{
+    //           textAlign: "right"
+    //         }}
+    //       >
+    //         {cellValues.value}
+    //       </div>
+    //     );
+    //   }
+    // },
     {
       field: 'firstName', headerName: 'שם פרטי', width: 130,
       renderCell: (cellValues) => {
@@ -165,41 +165,41 @@ export default function DataTable() {
         );
       }
     },
-    {
-      field: 'password', headerName: 'סיסמה', width: 130,
-      renderCell: (cellValues) => {
-        return (
-          <div
-            style={{
-              textAlign: "right"
-            }}
-          >
-            {cellValues.value}
-          </div>
-        );
-      }
-    },
+    // {
+    //   field: 'password', headerName: 'סיסמה', width: 130,
+    //   renderCell: (cellValues) => {
+    //     return (
+    //       <div
+    //         style={{
+    //           textAlign: "right"
+    //         }}
+    //       >
+    //         {cellValues.value}
+    //       </div>
+    //     );
+    //   }
+    // },
     {
       field: "update",
       headerName: "עדכון",
-      width: 150,
+      width: 80,
       renderCell: updateDetails,
       disableClickEventBubbling: true,
     },
     {
       field: "Delete",
       headerName: "מחיקה",
-      width: 150,
+      width: 80,
       renderCell: renderDetailsButton,
       disableClickEventBubbling: true,
     },
-    {
-      field: "status",
-      headerName: "סטטוס",
-      width: 150,
-      renderCell: renderSwitcButton,
-      disableClickEventBubbling: true,
-    },
+    // {
+    //   field: "status",
+    //   headerName: "סטטוס",
+    //   width: 150,
+    //   renderCell: renderSwitcButton,
+    //   disableClickEventBubbling: true,
+    // },
   ];
 
 
@@ -223,24 +223,24 @@ export default function DataTable() {
   }
 
   return (
-    <div >
-      <ThemeProvider theme={theme}>
+    <div style={{marginTop:'15vh'}}>
+      {/* <ThemeProvider theme={theme}> */}
+     <div style={{ height: 400}}>
         <DataGrid
           rows={rows}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[5]}
-          checkboxSelection
-          style={{ direction: 'rtl' }}
-          dir={"rtl"}
+          // checkboxSelection
         />
-      </ThemeProvider>
+        </div>
+      {/* </ThemeProvider> */}
       <div>
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>update details</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              {/* <UpdateUserDetails user={selectedUser}></UpdateUserDetails> */}
+              <UpdateUserDetails user={selectedUser}></UpdateUserDetails>
             </DialogContentText>
           </DialogContent>
           <DialogActions>

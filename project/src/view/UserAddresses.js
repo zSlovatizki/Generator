@@ -176,7 +176,8 @@ export default function UserAddresses(props) {
 
     return (
         <>
-            {userDetails && <UserDetails userDetails={userDetails} />}
+        <UserDetails />
+            {/* {userDetails && <UserDetails userDetails={userDetails} />} */}
             <Box2>
                 {awaitNames && userDetails.Addresses.map((address, i) =>
                     <Accordion

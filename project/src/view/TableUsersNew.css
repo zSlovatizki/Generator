@@ -1,0 +1,136 @@
+.datatable-crud-demo .table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+@media screen and (max-width: 960px) {
+    .datatable-crud-demo .table-header {
+        align-items: flex-start;
+    }
+}
+.datatable-crud-demo .product-image {
+    width: 100px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+.datatable-crud-demo .p-dialog .product-image {
+    width: 150px;
+    margin: 0 auto 2rem auto;
+    display: block;
+}
+.datatable-crud-demo .confirmation-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@media screen and (max-width: 960px) {
+    .datatable-crud-demo .p-toolbar {
+        flex-wrap: wrap;
+    }
+    .datatable-crud-demo .p-toolbar .p-button {
+        margin-bottom: 0.25rem;
+    }
+    .datatable-crud-demo .table-header {
+        flex-direction: column;
+    }
+    .datatable-crud-demo .table-header .p-input-icon-left, .datatable-crud-demo .table-header input {
+        width: 100%;
+    }
+}
+.p-paginator.p-component.p-paginator-bottom{
+    direction: ltr;
+}
+.datatable-crud-demo{
+  margin-top: 35px;
+}
+.p-datatable .p-datatable-header {
+    margin-top: 15vh;
+}
+
+/* ******************* */
+.p-button, .p-button-danger{
+    background-color: rgb(66, 64, 64) !important;
+    color: white !important;
+    border-color: rgb(66, 64, 64) !important;
+  }
+  .rbc-event:focus{
+    background-color: rgb(66, 64, 64) !important;
+  }
+  .rbc-event, .rbc-selected{
+    background-color: rgb(66, 64, 64) !important;
+  }
+  .p-datatable .p-datatable-thead > tr > th{
+    text-align: right !important;
+  }
+  .p-datatable .p-datatable-tbody > tr > td{
+    text-align: right !important;
+  }
+  .p-edit{
+    display: flex;
+    justify-content: left;
+  }
+  .header-events{
+    display: flex;
+    justify-content: center;
+    margin-right: 30%;
+    margin-bottom: -30px;
+  }
+  .p-button-css{
+    margin-right:29% !important;
+  }
+  .buttonCalendar{
+    background-color: rgb(255,170,23) !important;
+  }
+  .sign-style{
+    background-color: #fff;
+    padding-top: 5px;
+    padding-bottom: 25px;
+    border-radius: 6px;
+  }
+  .link-sign{
+    color: gray;
+  }
+  .MuiCheckbox-colorSecondary.Mui-checked{
+    color: gray !important;
+  }
+  .remember-button{
+    display: flex;
+    justify-content: right;
+  }
+  .MuiFormControlLabel-root {
+    margin-right: -10px !important;
+  }
+  .calendar-css{
+    background-color: rgba(138, 129, 129, 0.582);
+    direction: ltr;
+  }
+  .p-button-warning{
+    background-color: rgb(255,170,23) !important;
+    border-color: rgba(204, 190, 190, 0.973) !important;
+  }
+  .p-button-success{
+    background-color: rgb(100, 96, 96) !important;
+    color: white !important;
+    border-color:  rgb(100, 96, 96) !important;
+  }
+  /* .rbc-day-bg{
+    border-left: 1px solid #ddd;
+  } */
+  /* .container{
+    margin-right: 5px !important;
+    margin-left: 5px !important;
+  } */
+  .me-auto{
+    margin-left: 15px !important;
+  }
+  .navbar-toggler{
+    margin-left: 15px;
+  }
+  .p-datepicker.p-datepicker-timeonly .p-timepicker{
+    direction: ltr;
+  }
+  .p-field-checkbox > label{
+    margin-right: 0.5em;
+  }
+  .p-button-rounded{
+    margin-right: 8px;
+  }

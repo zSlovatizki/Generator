@@ -15,6 +15,8 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { Button } from "@mui/material";
 import AddUser from "./AddUser";
 import { useHistory } from "react-router";
+import TableUsersNew from "./TableUsersNew";
+
 export default function AllUsers() {
   const history = useHistory();
   console.log(history);
@@ -37,16 +39,19 @@ export default function AllUsers() {
             m: 1,
             alignItems: "center",
           },
+          marginTop:'15vh'
         }}
       >
         <Paper
           elevation={3}
           style={{
-            width: "90vw",
-            height: "80vh",
+            // width: "90vw",
+            // height: "80vh",
+            width:'80%'
           }}
         >
           <UserTable />
+          {/* <TableUsersNew /> */}
         </Paper>
         <IconButton
           aria-label="addIcon"

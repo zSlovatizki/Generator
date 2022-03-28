@@ -1,5 +1,5 @@
 .appBar {
-    /* height: 8vh; */
+    height: 12vh;
     background-color: #575151 !important;
     color: white !important;
   }
@@ -8,6 +8,10 @@
     background-color: white;
     display: flex !important;
     flex-direction: column;
+}
+.css-19r6kue-MuiContainer-root {
+  padding-left: 15px !important;
+  padding-right: 1px !important;
 }
   
   .link {
@@ -21,11 +25,11 @@
     color: white;
     text-decoration: none;
     padding: 24px;
-    width: 100px;
+    width: 150px;
     text-align: center;
   }
-  .linkMenu:focus {
-    border-bottom: solid 3px rgb(238, 158, 10);
+  .linkMenu:focus , .linkMenu:active{
+    border-bottom: solid 3px rgb(255,170,23);
   }
   /* .menuCenter{
     text-align: center;

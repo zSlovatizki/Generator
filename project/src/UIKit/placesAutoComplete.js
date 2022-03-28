@@ -8,9 +8,8 @@ export default function PlacesAutoComplete(props) {
   const [showWarning, setShowWarning] = useState(false);
 
   return (
-    <div className="aa" style={{ zIndex: 10 },{marginBottom:"5px"}}>
-      <Autocomplete className="autocomplete"
-
+    <div className="aa" style={{ zIndex: 10 , marginBottom:"5px"}}>
+      <Autocomplete className="autocomplete searchInput"
         apiKey="AIzaSyBwBhST7RvyHmk9JLlkMPHp8LAfY7AqIEw‏&libraries=places&language=iw"
         onPlaceSelected={(place) => {
           if (place != null)
@@ -29,7 +28,6 @@ export default function PlacesAutoComplete(props) {
         }}
         //defaultValue="בני ברק"
         // style={{ width: "80%" }}
-        className="searchInput"
       style={{zIndex:10}}/>
       {showWarning && <p style={{color:"red"}}>אנא בחר ערך מהרשימה</p>}
     </div>
