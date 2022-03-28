@@ -95,7 +95,7 @@ export default function AddUser({ setAddNewUserState, addNewUserState,history}) 
   });
 
   const classes = useStyles();
-  console.log(history)
+  // console.log(history)
   const [showPassword, setShowPassword] = useState(false);
   const [showVerifyPassword, setShowVerifyPassword] = useState(false);
 
@@ -154,7 +154,7 @@ export default function AddUser({ setAddNewUserState, addNewUserState,history}) 
             alert("שגיאה קיים כבר משתמש כזה..")
           setAddNewUserState({ ...addNewUserState, isOpen: false })
         },
-        (error) => console.log("error on create new user", error)
+        // (error) => console.log("error on create new user", error)
       );
     },
   });

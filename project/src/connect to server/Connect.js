@@ -7,7 +7,6 @@ import { toJS } from 'mobx'
 import { getLatLngFromString } from '../services/Functions';
 
 export async function getGeneratorsByManagerId(id) {
-   var data;
    axios.get(`https://localhost:44306/api/Generator/GetGeneratorsByMenagerID?id=${id}`).then((d) => {
       d.data.map(generator => {
          generator.address = getLatLngFromString(generator.address)
@@ -114,14 +113,15 @@ export function addCableToAddress(cableId, addressId) {
 }
 
 export async function AddUserAddress(userAddress) {
-
-   return await axios
+   var data;
+   await axios
       .post(`https://localhost:44306/api/User/AddAddressToUser`, {
          "ampereAmount": userAddress.ampereAmount,
          "address": userAddress.address,
          "generatorID": userAddress.generatorID,
          "userID": userAddress.userID,
-      })
+      }).then(d => data = d.data);
+      return data;
 }
 
 export function DeleteAddressToUser(userAddressID) {
@@ -136,7 +136,7 @@ export const addAmpereToUser = (userAddressID, ampereAmount) => {
       })
 }
 
-export async function DeleteCable(cableId) {
+export async function DeleteCableById(cableId) {
    return await axios.delete(`https://localhost:44306/api/cable/DeleteCable?id=${cableId}`)
 }
 
@@ -168,4 +168,9 @@ export async function getUserUsesInYear(addressId, year) {
 }
 export async function getUsersUsesInYear(managerId, year) {
    return axios.get(`https://localhost:44306/api/UsesForDateToUser/GetUsersUsesInYear?managerId=${managerId}&year=${year}`);
+}
+
+export async function AmpereLeftToGenerator(generatorId) {
+   var data = await axios.get(`https://localhost:44306/api/Generator/CanAddAmpereToGenerator?generatorId=${generatorId}`)
+   return data.data;
 }

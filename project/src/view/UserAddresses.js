@@ -16,6 +16,8 @@ import Tabs from '@mui/material/Tabs';
 import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import TabContext from '@mui/lab/TabContext';
+// import TabContext from '@material-ui/lab/TabContext';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import TabList from '@mui/lab/TabList';
 
 export default function UserAddresses(props) {
@@ -82,7 +84,7 @@ export default function UserAddresses(props) {
             setawait2(true);
             inReneder = false;
         }
-       
+
     }, [userDetails])
 
     useEffect(() => {
@@ -117,7 +119,7 @@ export default function UserAddresses(props) {
     }
 
     const updateNewAddress = (flag, newAddress) => {
-    
+
         if (flag) {
             setTabsValues([...tabsValues, { value: '1', canAdd: false }])
             getAddressNameByLatLng(getLatLngFromString(newAddress.address)).then(name => {
@@ -133,15 +135,14 @@ export default function UserAddresses(props) {
         var tabValues = [];
 
         console.log("add", userDetails.Addresses);
-        userDetails.Addresses.map((address, i) =>{
-            if (address.userAddressID != id)
-            {
+        userDetails.Addresses.map((address, i) => {
+            if (address.userAddressID != id) {
                 addresses.push(address);
                 tabValues.push(tabsValues[i]);
             }
         })
         setTabsValues(tabsValues);
-        setUserDetails({...userDetails, Addresses:addresses});
+        setUserDetails({ ...userDetails, Addresses: addresses });
     }
 
     const handleChange = (newValue, index) => {
@@ -179,16 +180,17 @@ export default function UserAddresses(props) {
         <UserDetails />
             {/* {userDetails && <UserDetails userDetails={userDetails} />} */}
             <Box2>
+                {!awaitNames && <CircularProgress disableShrink />}
                 {awaitNames && userDetails.Addresses.map((address, i) =>
                     <Accordion
-                     style={{ width: 400 }}>
-                        <AccordionSummary expandIcon={<ExpandMore />}
-                        >
+                        id={address.userAddressID}
+                        style={{ width: 400 }}>
+                        <AccordionSummary expandIcon={<ExpandMore />}>
                             <p>{addressesNames[i].name} אמפר: {address.ampereAmount}</p>
                         </AccordionSummary>
                         <AccordionDetails>
                             <div>
-                                <Button onClick={() => deleteAddress(address.userAddressID)}><DeleteIcon style={{color:'#58585A'}}/></Button>
+                                <Button onClick={() => deleteAddress(address.userAddressID)}><DeleteIcon style={{ color: '#58585A' }} /></Button>
                                 {await2 && <TabContext value={tabsValues[i].value}>
                                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                         <TabList TabIndicatorProps={{

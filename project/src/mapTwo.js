@@ -7,7 +7,7 @@ import { toJS } from 'mobx'
 import AddGeneratorDrawer from './view/GeneratorDrawer'
 import { CableOfPoint, loadToPointInCable, CalcLength, loadToPointInCable2, calcLoadByTypeAndThickness, getLatLngFromString, lengthForCable } from './services/Functions'
 import PlacesAutoComplete from './UIKit/placesAutoComplete'
-import { AddCable, DeleteCable } from './connect to server/Connect'
+import { AddCable, DeleteCableById, AmpereLeftToGenerator } from './connect to server/Connect'
 import Dialog from '@material-ui/core/Dialog'
 import Line from './UIKit/Line';
 import Select from './UIKit/Select'
@@ -19,10 +19,7 @@ import { Toast } from 'primereact/toast';
 // import 'primereact/resources/primereact.css';
 // import 'primeflex/primeflex.css';
 
-const containerStyle = {
-    height: `500px`,
-    width: '100%'
-};
+
 
 const center = {
     lat: -3.745,
@@ -34,7 +31,10 @@ function MyComponent(props) {
         id: 'google-map-script',
         googleMapsApiKey: "AIzaSyBwBhST7RvyHmk9JLlkMPHp8LAfY7AqIEw&libraries=places,drawing,geometry&language=iw"
     })
-
+    const containerStyle = {
+        height: `500px`,
+        width: props.width ? props.width :'100%'
+    };
     const [map, setMap] = React.useState(null)
     const types = [1, 2];
     const thicknessType1 = [1.5, 2.5, 4, 6, 10, 16, 25, 30, 35, 50, 70, 92, 120, 150, 240];
@@ -44,7 +44,7 @@ function MyComponent(props) {
     const refMap = useRef(null);
     const [isLoadMessageOpen, setIsLoadMessageOpen] = useState(false);
     const [address, setAddress] = useState('search')
-    const [infoWindowPosition, setInfoWindowPosition] = useState({ lat: -34.397, lng: 150.644 })
+    const [infoWindowPosition, setInfoWindowPosition] = useState()
     const [loadLeftForCurrentPoint, setLoadLeftForCurrentPoint] = useState(0)
     const [polylinesArr, setPolylinesArr] = useState([])
     const [openDrawer, setOpenDrawer] = useState([])
@@ -64,6 +64,7 @@ function MyComponent(props) {
     const [addressToAddCableTo, setAddressToAddCableTo] = useState(null);
     const toast = useRef(null);
 
+    const [isNotEnoughAmperInGeneratorOpen, setIsNotEnoughAmperInGeneratorOpen] = useState(false);
     const colors = [
         { color: "#ff4444", thickness: 14 }, { color: "#ffbb33", thickness: 12 }, { color: "#00C851", thickness: 10 }, { color: "#33b5e5", thickness: 8 },
         { color: "#CC0000", thickness: 6 }, { color: "#FF8800", thickness: 4 }
@@ -81,14 +82,14 @@ function MyComponent(props) {
         toast.current.show({ severity: 'success', summary: 'בוצע בהצלחה', detail: 'נוסף גנרטור', life: 3000 });
     }
 
-    const onPolylineComplete = (polyline) => {
+
+    async function onPolylineComplete(polyline) {
         var connectToCableOrGenerator = false;
         var startOnSelectedAddress = false;
         var generatorId = -1;
         var pol = polyline.getPath().getArray();
         var addressPointIndex = -1;
         if (props.address) {
-            console.log("addressToAddCableTo", addressToAddCableTo)
             var centerCirclePoint = new window.google.maps.LatLng(addressToAddCableTo.lat, addressToAddCableTo.lng);
 
             if (window.google.maps.geometry.spherical.computeDistanceBetween(pol[0], centerCirclePoint) <= 3) {
@@ -107,6 +108,7 @@ function MyComponent(props) {
 
         var point = addressToAddCableTo && pointToConnect != null ? pointToConnect : pol[0];
 
+        //if (addressToAddCableTo)
         toJS(Generator.generators).map(g => {
             if (window.google.maps.geometry.spherical.computeDistanceBetween(point, new window.google.maps.LatLng(g.address.lat, g.address.lng)) <= 10) {
                 connectToCableOrGenerator = true;
@@ -114,32 +116,56 @@ function MyComponent(props) {
             }
         })
 
+
         toJS(Cables.cables).map(cable => {
-            cable.coordinates.map((p, i) => {
-                if (i != cable.coordinates.length - 1) {
-                    var startPoint = { lat: p.lat, lng: p.lng };
-                    var endPoint = { lat: cable.coordinates[i + 1].lat, lng: cable.coordinates[i + 1].lng };
-                    var coordinates = [startPoint, endPoint];
-                    var poll = new window.google.maps.Polyline({
-                        path: coordinates
-                    })
+            var currentAddressCable = false;
+            if (props.address?.cables)
+                props.address?.cables.map(c => {
+                    if (c == cable.id)
+                        currentAddressCable = true;
+                })
+            if (!currentAddressCable || !props.address) {
+                cable.coordinates.map((p, i) => {
+                    if (i != cable.coordinates.length - 1) {
+                        var startPoint = { lat: p.lat, lng: p.lng };
+                        var endPoint = { lat: cable.coordinates[i + 1].lat, lng: cable.coordinates[i + 1].lng };
+                        var coordinates = [startPoint, endPoint];
+                        var poll = new window.google.maps.Polyline({
+                            path: coordinates
+                        })
 
-                    if (window.google.maps.geometry.poly.isLocationOnEdge(point, poll, 0.0001)) {
-                        connectToCableOrGenerator = true;
-                        generatorId = cable.generatorId;
+                        if (window.google.maps.geometry.poly.isLocationOnEdge(point, poll, 0.00001)) {
+                            connectToCableOrGenerator = true;
+                            generatorId = cable.generatorId;
+                        }
                     }
-                }
-            })
-        })
+                })
+            }
 
-        if (!connectToCableOrGenerator && !props.address || (props.address && (!connectToCableOrGenerator || !startOnSelectedAddress)))
+        })
+        console.log("props.address.generatorID != generatorId", props.address.generatorID, generatorId, props.address.generatorID != generatorId)
+        if (generatorId != -1 && !props.address || generatorId != -1 && props.address && props.address.generatorID != generatorId) {
+            var ampereLeftToGenerator = await AmpereLeftToGenerator(generatorId);
+            if (ampereLeftToGenerator < props.amperToAdd) {
+                polyline.setMap(null);
+                setIsNotEnoughAmperInGeneratorOpen(true);
+                console.log("ret")
+                return;
+            }
+        }
+        if (!connectToCableOrGenerator && !props.address || (props.address && (!connectToCableOrGenerator || !startOnSelectedAddress))) {
+
+            console.log("ret2", !connectToCableOrGenerator && !props.address)
             polyline.setMap(null);
+        }
         else {
+            console.log("!ret")
             var pol = pol;
             setNewPolyline(pol);
             setOpenDialog(true);
             setNewCable({ generatorId: generatorId, })
         }
+        polyline.setMap(null);
     }
     const handleAddressSelect = (event) => {
         const newBounds = new window.google.maps.LatLngBounds();
@@ -171,7 +197,7 @@ function MyComponent(props) {
             var loadByTypeAndThickness = calcLoadByTypeAndThickness(selectedCableType, selectedCableThickness);
             var load = loadToPointInCable2(length, loadByTypeAndThickness);
             console.log("load", load)
-            if (load < props.amperTpAdd) {
+            if (load < props.amperToAdd) {
                 setShowLowLoadWarning(true);
                 return;
             }
@@ -204,7 +230,7 @@ function MyComponent(props) {
         setIsAddCable(true);
     }
 
-    const deleteCable = async () => {
+    async function deleteCable() {
         var selectedCable;
         var hasCableOn = false;
         toJS(Cables.cables).map(cable => {
@@ -225,7 +251,7 @@ function MyComponent(props) {
             setshowCabelDeleteWarning(true)
             return;
         }
-        var status = await DeleteCable(selectedCableId);
+        var status = await DeleteCableById(selectedCableId);
         if (status.data)
             Cables.removeCable(selectedCableId);
         setIsLoadMessageOpen(false);
@@ -240,18 +266,28 @@ function MyComponent(props) {
     useEffect(() => {
         if (props.address)
             setAddressToAddCableTo(props.address.lat ? props.address : getLatLngFromString(props.address.address));
-        setCenterCoords(addressToAddCableTo ? addressToAddCableTo : { lat: -34.397, lng: 150.644 });
         if (props.polylinesArr != undefined)
             setPolylinesArr(props.polylinesArr)
 
         if (props.openDrawer != undefined)
             setOpenDrawer(props.openDrawer)
+
+        if (navigator && navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(pos => {
+                const coords = pos.coords;
+                var center = ({
+                    lat: coords.latitude,
+                    lng: coords.longitude
+                });
+
+                handleBoundsChanged(props.address ? props.address.lat ? props.address : getLatLngFromString(props.address.address) : center);
+            });
+        }
     }, [])
 
-    const handleBoundsChanged = () => {
-        const mapCenter = refMap.current.getCenter(); //get map center
-        setCenter(mapCenter);
-    };
+    const handleBoundsChanged = (center) =>
+        setCenterCoords(center);
+
 
     const polylineClick = (polyMouseEvent, id) => {
         var cable = CableOfPoint(polyMouseEvent.latLng.toJSON());
@@ -272,8 +308,15 @@ function MyComponent(props) {
     }
 
     const onLoad = React.useCallback(function callback(map) {
-        const bounds = new window.google.maps.LatLngBounds();
-        map.fitBounds(bounds);
+        if (navigator && navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(pos => {
+                const coords = pos.coords;
+                setCenterCoords({
+                    lat: coords.latitude,
+                    lng: coords.longitude
+                });
+            });
+        }
         setMap(map)
     }, [])
 
@@ -294,7 +337,7 @@ function MyComponent(props) {
                 className="googleMap"
                 mapContainerStyle={containerStyle}
                 center={centerCoords}
-                zoom={10}
+                zoom={17}
                 onLoad={onLoad}
                 onUnmount={onUnmount}
                 width={"100%"}
@@ -313,6 +356,7 @@ function MyComponent(props) {
                 }
                 //#region הוספת גנרטור
                 <AddGeneratorDrawer openDrawer={openDrawer}/>
+                {!props.address && <AddGeneratorDrawer openDrawer={openDrawer} />}
                 //#endregion
                 {<DrawingManager
                     onPolylineComplete={(e) => { onPolylineComplete(e) }}
@@ -342,7 +386,7 @@ function MyComponent(props) {
                     isLoadMessageOpen && <InfoWindow position={infoWindowPosition} onCloseClick={handleCloseCall}>
                         <div>
                             <p> {loadLeftForCurrentPoint}</p>
-                            {/* <button onClick={this.deleteCable}>delete</button> */}
+                            <button onClick={deleteCable}>delete</button>
                         </div>
                     </InfoWindow>
                 )}
@@ -404,7 +448,11 @@ function MyComponent(props) {
                     arr={thicknessArr[selectedCableType - 1]} />
                 {showLowLoadWarning && <p style={{ color: "red" }}>עומס נמוך</p>}
                 <button onClick={() => addCableClick()}>{addressToAddCableTo ? "אשר" : "הוסף כבל"}</button>
-                <button onClick={() => { setNewPolyline(null); setOpenDialog(false); setShowLowLoadWarning(false) }}>בטל</button>
+                <button onClick={() => { setNewPolyline(null); setNewCable(null); setOpenDialog(false); setShowLowLoadWarning(false) }}>בטל</button>
+            </Dialog>
+            <Dialog open={isNotEnoughAmperInGeneratorOpen}>
+                אין אפשרות להוסיף את האמפר הנדרש על גנרטור זה
+                <button onClick={() => setIsNotEnoughAmperInGeneratorOpen(false)}> אישור</button>
             </Dialog>
         </div>
     ) : <></>

@@ -8,7 +8,7 @@ import { toJS } from 'mobx';
 import AddCableMap from './AddCableMap'
 import { loadToPointInCable2, getLatLngFromString, lengthForCable, calcLoadByTypeAndThickness, getAddressNameByLatLng } from '../services/Functions'
 import Dialog from '@mui/material/Dialog';
-import { AddUserAddress, AddCable, addCableToAddress, addAmpereToUser } from '../connect to server/Connect'
+import { AmpereLeftToGenerator, AddUserAddress, AddCable, addCableToAddress, addAmpereToUser } from '../connect to server/Connect'
 import ReplyIcon from '@mui/icons-material/Reply';
 import { Button } from '@material-ui/core';
 import { parse } from 'querystring';
@@ -21,7 +21,7 @@ export default function UpdateAmountForAdress(props) {
     const thickness2 = [24, 50, 70, 65, 150, 240];
     const [polylinesArr, setPolylinesArr] = useState([]);
     const [address, setAddress] = useState();
-    const [selectedCables, setselectedCables] = useState();
+    const [selectedCables, setselectedCables] = useState([]);
     const [amperInputValue, setAmperInputValue] = useState(0);
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedCableType, setSelectedCableType] = useState(1);
@@ -47,9 +47,9 @@ export default function UpdateAmountForAdress(props) {
         setselectedCables(selectedCables);
     }, [])
 
-    const updateAmperView = (userAddressID, amperAmount) => {
+    const updateAmperAndCablesView = (userAddressID, amperAmount, newCableId) => {
         props.updateAmperView(userAddressID, amperAmount);
-        setAddress({ ...address, ampereAmount: parseFloat(address.ampereAmount) + parseFloat(amperAmount) })
+        setAddress({ ...address, cables: [...address.cables, newCableId], ampereAmount: parseFloat(address.ampereAmount) + parseFloat(amperAmount) })
         clearAll();
     }
 
@@ -91,9 +91,11 @@ export default function UpdateAmountForAdress(props) {
                     userID: query.get('id')
                 }
 
-                var addressId = await AddUserAddress(userAddressObj).then(result => addressId = result.data);
+                var addressId = await AddUserAddress(userAddressObj);
+                console.log("addressId",  addressId)
                 var cableId = await AddCable(cableForNewAddress.cable).then(result => cableId = result.data);
                 addCableToAddress(cableId, addressId)
+                setAddress({ ...address, cables: address.cables ? [...address.cables, cableId] : [cableId] })
                 Cables.cables = [...toJS(Cables.cables), { ...cableForNewAddress.cable, coordinates: cableForNewAddress.cordsArr, id: cableId }]
                 setCableForNewAddress(undefined)
                 var name = await getAddressNameByLatLng(props.address);
@@ -102,7 +104,7 @@ export default function UpdateAmountForAdress(props) {
                     address: userAddressObj.address,
                     ampereAmount: userAddressObj.ampereAmount,
                     generatorID: userAddressObj.generatorID,
-                    userAddressID: userAddressObj.userID,
+                    userAddressID: addressId,
                     cables: [cableId],
                     UsesForDate: [],
                     name: name
@@ -111,18 +113,20 @@ export default function UpdateAmountForAdress(props) {
                 props.updateNewAddress(true, newAddress);
             }
             else {
-                console.log("cond", parseFloat(parseFloat(amperInputValue) + parseFloat(addressAmpereAmount)))
+                //var ampereLeftToGenerator = await AmpereLeftToGenerator(cable.generatorId);
+                //if (ampereLeftToGenerator >= amperInputValue && (parseFloat(parseFloat(amperInputValue) + parseFloat(addressAmpereAmount))) <= parseFloat(load) && amperInputValue > 0) {
+
                 if ((parseFloat(parseFloat(amperInputValue) + parseFloat(addressAmpereAmount))) <= parseFloat(load) && amperInputValue > 0) {
                     {
                         addAmpereToUser(props.address.userAddressID, amperInputValue)
-                        updateAmperView(props.address.userAddressID, amperInputValue);
+                        updateAmperAndCablesView(props.address.userAddressID, amperInputValue);
                     }
                 }
             }
         }
     }
 
-    const shortRouteBetweenTwoPoints = (amperToAdd) => {
+    async function shortRouteBetweenTwoPoints(amperToAdd) {
         var latLngAddress;
         if (!props.newAddress)
             latLngAddress = getLatLngFromString(address.address)
@@ -131,33 +135,40 @@ export default function UpdateAmountForAdress(props) {
 
         var polylinesArr = [];
         var tempPolylinesArr = [];
-        Cables.cables.map(cable => {
-            var pointsInCable = allPointInCable(toJS(cable.coordinates));
-
-            pointsInCable.map((point) => {
-                var length = (window.google.maps.geometry.spherical.computeDistanceBetween(point, latLngAddress)).toFixed(2);
-                var loadByTypeAndThickness = calcLoadByTypeAndThickness(selectedCableType, selectedCableThickness);
-                var load = loadToPointInCable2(length, loadByTypeAndThickness);
-                if ( load >= amperToAdd)
-                tempPolylinesArr.push(
-                    {
-                        path: [new window.google.maps.LatLng(latLngAddress.lat, latLngAddress.lng), toJS(point)],
-                        routeLength: length,
-                        load: load,
-                        generatorId: cable.generatorId,
-                        thickness: selectedCableThickness,
-                        type: selectedCableType
-                    })
+        await Promise.all(Cables.cables.map(async cable => {
+            var isAddressCable = false;
+            address.cables && address.cables.map(c => {
+                if (c == toJS(cable).id)
+                    isAddressCable = true;
             })
-            tempPolylinesArr.map(pol => {
-                var contains = polylinesArr.find(p =>(window.google.maps.geometry.spherical.computeDistanceBetween(p.path[1], pol.path[1])).toFixed(2) == 0);
-                if (!contains && pol.routeLength > 0)
-                    polylinesArr.push(pol);
-            })
-        })
-
+            var ampereLeftToGenerator = await AmpereLeftToGenerator(cable.generatorId);
+             console.log(":",!isAddressCable && ampereLeftToGenerator >= amperToAdd && cable.generatorId == address.generatorID)
+            if ( !isAddressCable && ampereLeftToGenerator >= amperToAdd && (cable.generatorId == address.generatorID || !cable.generatorID)) {
+                var pointsInCable = allPointInCable(toJS(cable.coordinates));
+                pointsInCable.map((point) => {
+                    var length = (window.google.maps.geometry.spherical.computeDistanceBetween(point, latLngAddress)).toFixed(2);
+                    var loadByTypeAndThickness = calcLoadByTypeAndThickness(selectedCableType, selectedCableThickness);
+                    var load = loadToPointInCable2(length, loadByTypeAndThickness);
+                    if (load >= amperToAdd)
+                        tempPolylinesArr.push(
+                            {
+                                path: [new window.google.maps.LatLng(latLngAddress.lat, latLngAddress.lng), toJS(point)],
+                                routeLength: length,
+                                load: load,
+                                generatorId: cable.generatorId,
+                                thickness: selectedCableThickness,
+                                type: selectedCableType
+                            })
+                })
+                tempPolylinesArr.map(pol => {
+                    var contains = polylinesArr.find(p => (window.google.maps.geometry.spherical.computeDistanceBetween(p.path[1], pol.path[1])).toFixed(2) == 0);
+                    if (!contains && pol.routeLength > 0)
+                        polylinesArr.push(pol);
+                })
+            }
+        }))
         polylinesArr.sort((a, b) => (parseFloat(a.routeLength) > parseFloat(b.routeLength)) ? 1 : ((parseFloat(b.routeLength) > parseFloat(a.routeLength)) ? -1 : 0))
-        setPolylinesArr(polylinesArr.slice(0,6));
+        setPolylinesArr(polylinesArr.slice(0, 6));
         setOpenDialog(true);
     }
 
@@ -182,11 +193,7 @@ export default function UpdateAmountForAdress(props) {
     }
 
     const allPointInCable = (coordinates) => {
-        console.log("cord", coordinates)
-        coordinates.map(point => console.log(point.lat, point.lng))
         var points = coordinates.map(point => new window.google.maps.LatLng(point.lat, point.lng));
-        console.log("points", points)
-        points.map(p => console.log(p.lat(),"lng : ", p.lng()))
         return getAllPointsForCable(points);
     }
 
@@ -344,7 +351,7 @@ export default function UpdateAmountForAdress(props) {
                     <Button onClick={clearAll} style={{ width: 40 }}><ReplyIcon /></Button>
                     <p>כמות אמפר:</p>
                     <input value={amperInputValue} onChange={(event) => setAmperInputValue(event.target.value)} disabled={show} />
-                    {openDialog && <AddCableMap updateAmperView={updateAmperView} newAddress={props.newAddress} address={props.address} setSelectedCable={setSelectedCable} polylinesArr={polylinesArr} setOpen={setOpenDialog} amperAmount={amperInputValue} />}
+                    {openDialog && <AddCableMap updateAmperView={updateAmperAndCablesView} newAddress={props.newAddress} address={props.address} setSelectedCable={setSelectedCable} polylinesArr={polylinesArr} setOpen={setOpenDialog} amperAmount={amperInputValue} />}
                     {show && <p>אין מספיק אמפר בכבל להוספת כבל בחר סוג כבל ורוחב כבל</p>}
                     {(show || props.newAddress) && <SimpleSelect v={selectedCableType} setV={setSelectedCableType} arr={types} handleSelect={handleTypesSelect} />}
                     {(show || props.newAddress) && <SimpleSelect v={selectedCableThickness} setV={setSelectedCableThickness} arr={thicknessArr} />}
