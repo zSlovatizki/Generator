@@ -109,7 +109,7 @@ export default function AddGeneratorDrawer(props) {
   };
 
   return (
-    <div className={classes.root} style={{ zIndex:1},{direction:"rtl"}}>
+    <div className={classes.root} style={{ zIndex:1,direction:"rtl"}}>
       <IconButton
         onClick={handleDrawerOpen}
         className={clsx(open && classes.hide)}
