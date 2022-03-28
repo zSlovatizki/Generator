@@ -163,7 +163,7 @@ export default function AddGeneratorDrawer(props) {
             {theme.direction === 'rtl' ? <ArrowForwardIcon /> : <ArrowForwardIcon />}
           </IconButton>
           <br/>
-          <h2 style={{color: 'rgb(255,170,23)'}}>הוספת גנרטור</h2>
+          <h3 style={{color: 'rgb(255,170,23)'}}>הוספת גנרטור</h3>
           </Line>
         </div>
         {/* <div style={{ zIndex: 10}}> */}

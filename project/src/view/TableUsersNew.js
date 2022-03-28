@@ -33,6 +33,15 @@ import Box from "@mui/material/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { CacheProvider } from "@emotion/react";
+import createCache from "@emotion/cache";
+import rtlPlugin from "stylis-plugin-rtl";
+import { prefixer } from "stylis";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 const useStyles = makeStyles((theme) => ({
     mainBox: {
@@ -62,12 +71,18 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "space-around",
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
-        backgroundColor: "rgb(88,88,90) !important",
+        margin: theme.spacing(3, 0, 2, 2),
+        backgroundColor: 'rgb(255,170,23) !important',
         color: 'white',
-        "&:hover": {
-            backgroundColor: 'rgb(52,51,51) !important',
-        },
+        // "&:hover": {
+        //     backgroundColor: 'rgb(52,51,51) !important',
+        // },
+        borderColor: 'rgb(255,170,23) !important'
+    },
+    button: {
+        margin: theme.spacing(3, 0, 2, 2),
+        backgroundColor: 'rgb(52,51,51) !important',
+        color: 'white',
     },
     link: {
         color: 'rgb(52,51,51)',
@@ -76,6 +91,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     textField: {
+        direction: 'rtl',
         marginLeft: "auto",
         marginRight: "auto",
         paddingTop: "0",
@@ -104,12 +120,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TableUsersNew() {
+    const theme = createTheme({
+        direction: "rtl",
+    });
+
+    const cacheRtl = createCache({
+        key: "muirtl",
+        stylisPlugins: [prefixer, rtlPlugin],
+    });
+
     let emptyUser = {
         Id: null,
         FirstName: '',
         LastName: '',
         Phone: '',
-        Email: ''
+        Email: '',
+        modify: 0
     }
     const [userDialog, setUserDialog] = useState(false);
     const [deleteUserDialog, setDeleteUserDialog] = useState(false);
@@ -124,12 +150,14 @@ export default function TableUsersNew() {
     const history = useHistory();
     const classes = useStyles();
     const [selectedManager, setSelectedManager] = useState([]);
+    const [checked, setChecked] = useState(true);
     const [title, setTitle] = useState();
     const [isButton, setIsButton] = useState(false);
     const [buttonText, setButtonText] = useState();
     const [path, setPath] = useState();
     const [showPassword, setShowPassword] = useState(false);
     const [showVerifyPassword, setShowVerifyPassword] = useState(false);
+    const [success, setSuccess] = useState(null);
 
 
     const phoneRegExp =
@@ -166,6 +194,9 @@ export default function TableUsersNew() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
+            alert("dsbvghj")
+            handleClose();
+            debugger
             var user = {
                 firstName: values.firstName,
                 lastName: values.lastName,
@@ -179,20 +210,23 @@ export default function TableUsersNew() {
                 (succ) => {
 
                     if (succ.data != -1) {
-                        debugger
                         setStorageItem("currentUser", JSON.stringify(user));
+                        debugger
                         // setTitle("נרשמת בהצלחה !");
-                        toast.current.show({ severity: 'success', summary: 'בוצע בהצלחה', detail: 'המוצר נמחק', life: 3000 });
-                        setIsButton(false);
-                        setOpen(true);
-                        history.push("/users");
+                        setSuccess(true);
+                        // setTimeout(()=>{
+                        //     setSuccess(null);
+                        // },6000);
                     }
                     else {
-                        setTitle("משתמש קיים במערכת !");
-                        setIsButton(true);
-                        setButtonText("לכניסה");
-                        setPath("sign_in");
-                        setOpen(true);
+                        // setTitle("משתמש קיים במערכת !");
+                        // setIsButton(true);
+                        // setButtonText("לכניסה");
+                        // setPath("sign_in");
+                        // setSuccess(false);
+                        // setTimeout(()=>{
+                        //     setSuccess(null);
+                        // },6000);
                     }
                 },
                 (error) => console.log("error on create new user", error)
@@ -238,9 +272,18 @@ export default function TableUsersNew() {
         setShowVerifyPassword(!showVerifyPassword);
     };
 
+    const handleChecked = (event) => {
+        setChecked(event.target.checked);
+        let _user = { ...user }
+        if (event.target.checked === true)
+            _user.modify = 1;
+        else
+            _user.modify = 0;
+        setUser(_user);
+    };
+
     const handleClickOpen = () => {
         setOpen(true);
-
     };
     const handleClose = () => {
         setOpen(false);
@@ -248,21 +291,30 @@ export default function TableUsersNew() {
     const openNew = () => {
         setUser(emptyUser);
         setSubmitted(false);
-        setUserDialog(true);
+        // setUserDialog(true);
+        handleClickOpen();
     }
-    const saveProduct = () => {
+    const saveUser = () => {
         setSubmitted(true);
     }
     //edit user
-    const editProduct = async (user) => {
+    const editUser = async (user) => {
+        // var getuser = await FetchFullUserDetailsById(user.id)
+        // setStorageItem("currentUser", JSON.stringify(getuser));
+        // setselectedUser(user);
+        // history.push({ pathname: `/userDetails/updateDetails`, search: `id=${user.id}`, state: user });
+        // setOpen(true);
+        setUser(user);
+        setSubmitted(false);
+        setOpen(true);
+    }
+
+    const detailsMore = async (user) => {
         var getuser = await FetchFullUserDetailsById(user.id)
         setStorageItem("currentUser", JSON.stringify(getuser));
         setselectedUser(user);
-        history.push({ pathname: `/userDetails/updateDetails`, search: `id=${user.id}`, state: user });
-        setOpen(true);
-        setUser({ ...user });
+        history.push({ pathname: `/userDetails/using`, search: `id=${user.id}`, state: user });
     }
-
     //אישור מחיקת משתמש
     const confirmDeleteUser = (user) => {
         setUser(user);
@@ -284,7 +336,7 @@ export default function TableUsersNew() {
     const userDialogFooter = (
         <div style={{ textAlign: 'left' }}>
             <Button label="ביטול" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="שמור" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
+            <Button label="שמור" icon="pi pi-check" className="p-button-text" onClick={saveUser} />
         </div>
     );
     const deleteUserDialogFooter = (
@@ -297,7 +349,8 @@ export default function TableUsersNew() {
         return (
             <React.Fragment>
                 <div className="p-edit">
-                    <Button icon="pi pi-pencil" className="p-button-rounded p-button-success p-mr-2" onClick={() => editProduct(rowData)} />
+                    <Button icon="pi pi-sliders-h" className="p-button-rounded p-button p-mr-2" onClick={() => detailsMore(rowData)} />
+                    <Button icon="pi pi-pencil" className="p-button-rounded p-button-success p-mr-2" onClick={() => editUser(rowData)} />
                     <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => confirmDeleteUser(rowData)} />
                 </div>
             </React.Fragment>
@@ -314,14 +367,28 @@ export default function TableUsersNew() {
                 </span>
             </>
             <div>
-                <Button label="משתמש חדש" icon="pi pi-plus" className="p-button-success p-mr-2" onClick={handleClickOpen} />
+                <Button label="משתמש חדש" icon="pi pi-plus" className="p-button-success p-mr-2" onClick={openNew} />
             </div>
         </div>
     );
 
     return (
         <div className="datatable-crud-demo">
-            <Toast ref={toast} />
+            {
+                success === true ?(
+            <Alert severity="success">
+                <AlertTitle>Success</AlertTitle>
+                This is a success alert — <strong>check it out!</strong>
+            </Alert>
+            ): success === false ?
+            (
+            <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                This is an error alert — <strong>check it out!</strong>
+            </Alert>
+            ):null
+            }
+            {/* <Toast ref={toast} /> */}
             <div className="card">
                 <DataTable ref={dt} value={users} emptyMessage={<div>לא נמצאו משתמשים הכנס משתמש...🤓</div>}
                     dataKey="id" paginator rows={10}
@@ -336,125 +403,132 @@ export default function TableUsersNew() {
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
                 </DataTable>
             </div>
-            <Dialog open={open} onClose={handleClose} style={{direction:'rtl', marginLeft:'auto', marginRight:'auto', width:'520px'}}>
+            <Dialog open={open} onClose={handleClose} style={{ direction: 'rtl', marginLeft: 'auto', marginRight: 'auto', width: '520px' }}>
                 <DialogTitle>משתמש חדש</DialogTitle>
-                <DialogContent>
-                        <Grid container spacing={2} style={{marginTop:'10px'}}>
-                            <Grid item xs={6} sm={6}>
-                                <TextField
-                                    className={classes.textField}
-                                    autoFocus
-                                    id="firstName"
-                                    name="firstName"
-                                    label="שם פרטי"
-                                    type="text"
-                                    value={formik.values.firstName}
-                                    onChange={formik.handleChange}
-                                    error={
-                                        formik.touched.firstName &&
-                                        Boolean(formik.errors.firstName)
-                                    }
-                                    helperText={
-                                        formik.touched.firstName && formik.errors.firstName
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={6}>
-                                <TextField
-                                    className={classes.textField}
-                                    fullWidth
-                                    id="lastName"
-                                    name="lastName"
-                                    label="שם משפחה"
-                                    type="text"
-                                    value={formik.values.lastName}
-                                    onChange={formik.handleChange}
-                                    error={
-                                        formik.touched.lastName && Boolean(formik.errors.lastName)
-                                    }
-                                    helperText={
-                                        formik.touched.lastName && formik.errors.lastName
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={6}>
-                                <TextField
-                                    className={classes.textField}
-                                    fullWidth
-                                    id="phone"
-                                    name="phone"
-                                    label="פלאפון"
-                                    value={formik.values.phone}
-                                    onChange={formik.handleChange}
-                                    error={formik.touched.phone && Boolean(formik.errors.phone)}
-                                    helperText={formik.touched.phone && formik.errors.phone}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={6}>
-                                <TextField
-                                    className={classes.textField}
-                                    fullWidth
-                                    id="Email"
-                                    name="email"
-                                    label="מייל"
-                                    value={formik.values.email}
-                                    onChange={formik.handleChange}
-                                    error={formik.touched.email && Boolean(formik.errors.email)}
-                                    helperText={formik.touched.email && formik.errors.email}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    className={classes.textField}
-                                    password={true}
-                                    fullWidth
-                                    id="password"
-                                    name="password"
-                                    label="סיסמא"
-                                    type={showPassword ? "text" : "password"}
-                                    InputProps={{
-                                        endAdornment: iconPassword,
-                                    }}
-                                    value={formik.values.password}
-                                    onChange={formik.handleChange}
-                                    error={
-                                        formik.touched.password && Boolean(formik.errors.password)
-                                    }
-                                    helperText={
-                                        formik.touched.password && formik.errors.password
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    className={classes.textField}
-                                    fullWidth
-                                    id="verifyPassword"
-                                    name="verifyPassword"
-                                    label="אישור סיסמא"
-                                    type={showVerifyPassword ? "text" : "password"}
-                                    value={formik.values.verifyPassword}
-                                    onChange={formik.handleChange}
-                                    InputProps={{
-                                        endAdornment: iconVerifyPassword,
-                                    }}
-                                    error={
-                                        formik.touched.verifyPassword &&
-                                        Boolean(formik.errors.verifyPassword)
-                                    }
-                                    helperText={
-                                        formik.touched.verifyPassword &&
-                                        formik.errors.verifyPassword
-                                    }
-                                />
-                            </Grid>
-                        </Grid>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>ביטול</Button>
-                    <Button 
-                     type="submit">שמור</Button>
-                </DialogActions>
+                <Box
+                    component="form"
+                    noValidate
+                    onSubmit={formik.handleSubmit}
+                    sx={{ mt: 3 }}
+                >
+                    <DialogContent>
+                        <CacheProvider value={cacheRtl}>
+                            <ThemeProvider theme={theme}>
+                                <Grid container spacing={2} style={{ marginTop: '10px' }}>
+                                    <Grid item xs={6} sm={6}>
+                                        <TextField
+                                            className={classes.textField}
+                                            autoFocus
+                                            id="firstName"
+                                            name="firstName"
+                                            label="שם פרטי"
+                                            type="text"
+                                            defaultValue={user.firstName}
+                                            value={formik.firstName}
+                                            onChange={formik.handleChange}
+                                            error={
+                                                formik.touched.firstName &&
+                                                Boolean(formik.errors.firstName)
+                                            }
+                                            helperText={
+                                                formik.touched.firstName && formik.errors.firstName
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6} sm={6}>
+                                        <TextField
+                                            className={classes.textField}
+                                            fullWidth
+                                            id="lastName"
+                                            name="lastName"
+                                            label="שם משפחה"
+                                            type="text"
+                                            defaultValue={user.lastName}
+                                            value={formik.lastName}
+                                            onChange={formik.handleChange}
+                                            error={
+                                                formik.touched.lastName && Boolean(formik.errors.lastName)
+                                            }
+                                            helperText={
+                                                formik.touched.lastName && formik.errors.lastName
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6} sm={6}>
+                                        <TextField
+                                            className={classes.textField}
+                                            fullWidth
+                                            id="phone"
+                                            name="phone"
+                                            label="פלאפון"
+                                            defaultValue={user.phone}
+                                            value={formik.phone}
+                                            onChange={formik.handleChange}
+                                            error={formik.touched.phone && Boolean(formik.errors.phone)}
+                                            helperText={formik.touched.phone && formik.errors.phone}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6} sm={6}>
+                                        <TextField
+                                            className={classes.textField}
+                                            fullWidth
+                                            id="Email"
+                                            name="email"
+                                            label="מייל"
+                                            defaultValue={user.Email}
+                                            value={formik.Email}
+                                            onChange={formik.handleChange}
+                                            error={formik.touched.email && Boolean(formik.errors.email)}
+                                            helperText={formik.touched.email && formik.errors.email}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            className={classes.textField}
+                                            password={true}
+                                            fullWidth
+                                            id="password"
+                                            name="password"
+                                            label="סיסמא"
+                                            type={showPassword ? "text" : "password"}
+                                            InputProps={{
+                                                endAdornment: iconPassword,
+                                            }}
+                                            defaultValue={user.password}
+                                            value={formik.password}
+                                            onChange={formik.handleChange}
+                                            error={
+                                                formik.touched.password && Boolean(formik.errors.password)
+                                            }
+                                            helperText={
+                                                formik.touched.password && formik.errors.password
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid container justifyContent="start !important" style={{ marginRight: "16px", marginTop: "15px" }}>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    // defaultChecked
+                                                    defaultChecked={user.modify === 0 ? false : true}
+                                                    onChange={handleChecked}
+                                                    name="isManager"
+                                                    color="default"
+                                                />
+                                            }
+                                            label="מעוניין להרשם כמנהל"
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </ThemeProvider>
+                        </CacheProvider>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button className={classes.button} onClick={handleClose}>ביטול</Button>
+                        <Button className={classes.submit}
+                            type="submit">שמור</Button>
+                    </DialogActions>
+                </Box>
             </Dialog>
             {/* <DialogPrime visible={userDialog} style={{ width: '450px' }} header="פרטי משתמש" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
             </DialogPrime> */}
@@ -465,6 +539,6 @@ export default function TableUsersNew() {
                     {user && <span>האם אתה בטוח שברצונך למחוק את המוצר  <b>{`${user.firstName} ${user.lastName}`}</b>?</span>}
                 </div>
             </Dialog> */}
-        </div>
+        </div >
     );
 }

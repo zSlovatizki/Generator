@@ -57,10 +57,10 @@ export default function Using() {
     }, [])
 
     return (
-        <>
+        <div>
+            <UserDetails />
             <Line>
-                <UserDetails />
-                <div style={{ width: "80%" }}>
+                <div style={{ width: "80%", backgroundColor:'#ffffff87', marginRight:'200px'}}>
                     <Line>
                         <div style={{ width: "15px", height: "15px", background: "#ff7043", margin: "10px" }} />
                         <p>ממוצע צריכה כללי</p>
@@ -87,10 +87,11 @@ export default function Using() {
                             name="avg"
                         />
                         <Stack />
-                        <Box sx={{ display: 'inline-flex' }}>
-                            <div style={{ marginTop: '2vh' }}><h1>גרף שימוש לשנת </h1></div>
-                            <div>
-                                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                        <Box >
+                            
+                            <div style={{display:'flex', justifyContent:'flex-start',flexWrap:'wrap', marginRight:'15px'}}>
+                                <div style={{color:'rgb(66, 64, 64)'}}><h4>גרף צריכה לשנת </h4></div>
+                                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }} style={{marginTop:'4vh'}}>
                                     <Select
                                         labelId="demo-simple-select-standard-label"
                                         id="demo-simple-select-standard"
@@ -112,6 +113,6 @@ export default function Using() {
                     {/* </Paper> */}
                 </div>
             </Line>
-        </>
+        </div>
     );
 }

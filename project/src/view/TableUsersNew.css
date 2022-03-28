@@ -47,7 +47,7 @@
 }
 
 /* ******************* */
-.p-button, .p-button-success, .p-button-danger{
+.p-button, .p-button-danger{
     background-color: rgb(66, 64, 64) !important;
     color: white !important;
     border-color: rgb(66, 64, 64) !important;
@@ -107,6 +107,11 @@
     background-color: rgb(255,170,23) !important;
     border-color: rgba(204, 190, 190, 0.973) !important;
   }
+  .p-button-success{
+    background-color: rgb(100, 96, 96) !important;
+    color: white !important;
+    border-color:  rgb(100, 96, 96) !important;
+  }
   /* .rbc-day-bg{
     border-left: 1px solid #ddd;
   } */
@@ -125,4 +130,7 @@
   }
   .p-field-checkbox > label{
     margin-right: 0.5em;
+  }
+  .p-button-rounded{
+    margin-right: 8px;
   }

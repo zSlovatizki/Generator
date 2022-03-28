@@ -13,3 +13,13 @@
 /* div{
   direction: rtl;
 } */
+.css-10hburv-MuiTypography-root{
+  font-weight: 600 !important;
+  text-align: start;
+}
+.GridUserDetails{
+  position: fixed;
+  height: 100px;
+  z-index: 1000;
+  margin-right: 20px;
+}

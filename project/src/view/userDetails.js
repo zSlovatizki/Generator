@@ -6,6 +6,9 @@ import ListItem from '@mui/material/ListItem';
 import { ListItemButton } from '@mui/material';
 import { ListItemText } from '@mui/material';
 import { getStorageItem } from "../services/Functions";
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
+import GradingIcon from '@mui/icons-material/Grading';
+import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 
 export default function UserDetails(props) {
 
@@ -47,16 +50,16 @@ export default function UserDetails(props) {
 
     return (
         <>
-            <Grid width="200px">
-                <div style={{ backgroundColor: "#e7ebf0" }}>
-                    <ListItemButton href="#simple-list" onClick={usingClick}>
-                        <ListItemText primary="גרף צריכה" />
+            <Grid width="150px" className="GridUserDetails">
+                <div style={{ backgroundColor: "#e7ebf0", display:'flex', flexDirection:'column', zIndex:1000}}>
+                    <ListItemButton href="#simple-list" onClick={usingClick} style={{color:'rgb(66, 64, 64)', fontSize:'20px', padding:'10px'}}>
+                         <AutoGraphIcon/><ListItemText primary="גרף צריכה" />
                     </ListItemButton>
-                    <ListItemButton href="#simple-list" onClick={detailsClick}>
-                        <ListItemText primary="פרטים" />
+                    <ListItemButton href="#simple-list" onClick={detailsClick} style={{color:'rgb(100, 96, 96)', padding:'10px'}}>
+                         <GradingIcon/><ListItemText primary="פרטים" />
                     </ListItemButton>
-                    <ListItemButton href="#simple-list" onClick={addressesClick}>
-                        <ListItemText primary="כתובות" />
+                    <ListItemButton href="#simple-list" onClick={addressesClick} style={{color:'rgb(255,170,23)', padding:'10px'}}>
+                         <AddLocationAltIcon/><ListItemText primary="כתובות" />
                     </ListItemButton>
                 </div>
             </Grid>

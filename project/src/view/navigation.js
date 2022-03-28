@@ -18,6 +18,7 @@ import WrappedMap from '../mapTwo';
 import Message from './Message';
 import TableUsersNew from './TableUsersNew';
 import UsersTable from './UsersTable';
+import UserDetails from './UserDetails';
 
 const history = createBrowserHistory();
 
@@ -56,21 +57,30 @@ export default function Navigation() {
                     {/* <Route exact path="/addUser">
                     <AddUser/>
                     </Route> */}
-                    <Route exact path="/userDetails">
-                        {/* <UserDetails/> */}
-                    </Route>
                     <Route path="/userDetails/updateDetails">
                         <MyAppBar />
+                        <div style={{marginTop:'15vh'}}>
                         <UpdateDetails />
+                        </div>
                     </Route>
                     <Route path="/userDetails/using">
                         <MyAppBar />
+                        <div style={{marginTop:'15vh'}}>
                         <Chart />
+                        </div>
                     </Route>
                     <Route path="/userDetails/addresses">
                         <MyAppBar />
+                        <div style={{marginTop:'15vh'}}>
                         <UserAddresses />
+                        </div>
                     </Route>
+                    {/* <Route path="/userDetails">
+                         <MyAppBar />
+                         <div style={{marginTop:'20vh'}}>
+                        <UserDetails/>
+                        </div>
+                    </Route> */}
                     <Route path="/addCableMap">
                         <MyAppBar />
                         <AddCableMap />
