@@ -1,1 +1,32 @@
-
+.selectPlace{
+    background-color: orange !important;
+ }
+.googleMap{
+    width: 85% !important;
+    margin: 20px !important;
+}
+.searchInput{
+    border-style: solid !important;
+    /* border-radius: 4px; */
+    line-height: 2.5;
+}
+.inputAmount{
+    border-style: solid !important;
+    line-height: 2.4;
+    width: 250px;
+}
+.spanAmount{
+    width: inherit;
+}
+input:focus{
+    outline: none !important;
+    border-color: rgb(255,170,23) !important;
+    border-radius: 0% !important;
+}
+.Line p, .aa p{
+    margin: 0;
+    margin-right: 5px;
+}
+.Line > :first-child{
+    margin-right: 0;
+}

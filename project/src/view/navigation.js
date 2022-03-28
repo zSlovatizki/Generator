@@ -16,12 +16,13 @@ import { createBrowserHistory } from 'history';
 import MyAppBar from './NavBar';
 import WrappedMap from '../mapTwo';
 import Message from './Message';
+import TableUsersNew from './TableUsersNew';
+import UsersTable from './UsersTable';
 
 const history = createBrowserHistory();
 
 export default function Navigation() {
     return (
-        <div>
             <Router history={history}>
                 <Switch>
                     <Route path="/sign_in">
@@ -40,9 +41,9 @@ export default function Navigation() {
                         <SignIn />
                     </Route>
                     <Route exact path="/users">
-                        {/* <MyAppBar /> */}
                         <MyAppBar/>
-                        <AllUsers />
+                        <TableUsersNew/>
+                        {/* <UsersTable /> */}
                     </Route>
                     <Route exact path="/message">
                         <MyAppBar />
@@ -76,6 +77,5 @@ export default function Navigation() {
                     </Route>
                 </Switch>
             </Router>
-        </div>
-    )
+    );
 }

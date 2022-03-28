@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import AddGenerator from './AddGenerator'
 import AddBoxOutlined from '@material-ui/icons/AddBoxOutlined';
@@ -58,9 +59,13 @@ const useStyles = makeStyles((theme) => ({
       position: "absolute",
       top: 10,
       right: 80,
-      border:"black solid 2px",
+      // border:"black solid 2px",
       width: "350px", // or you can use width: any_number
-      height: "200px" // or you can use height: any_number
+      height: "290px", // or you can use height: any_number
+      borderRadius: "3px",
+      boxShadow: 'rgb(0 0 0 / 30%) 0px 1px 4px -1px',
+      padding: '10px',
+      textAlign: 'center'
   },
   // drawerHeader: {
   //   display: 'flex',
@@ -112,6 +117,7 @@ export default function AddGeneratorDrawer(props) {
     <div className={classes.root} style={{ zIndex:1},{direction:"rtl"}}>
       <IconButton
         onClick={handleDrawerOpen}
+        title="הוספת גנרטור"
         className={clsx(open && classes.hide)}
         // style={{borderRadius:"50%"},{border:"black solid 3px"}}
         style={{
@@ -154,9 +160,10 @@ export default function AddGeneratorDrawer(props) {
         <div className={classes.drawerHeader}>
           <Line>
           <IconButton onClick={handleDrawerClose} className={classes.IconButton}>
-            {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === 'rtl' ? <ArrowForwardIcon /> : <ArrowForwardIcon />}
           </IconButton>
-          <h2>הוספת גנרטור</h2>
+          <br/>
+          <h2 style={{color: 'rgb(255,170,23)'}}>הוספת גנרטור</h2>
           </Line>
         </div>
         {/* <div style={{ zIndex: 10}}> */}

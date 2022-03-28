@@ -11,7 +11,13 @@ import { AddCable, DeleteCable } from './connect to server/Connect'
 import Dialog from '@material-ui/core/Dialog'
 import Line from './UIKit/Line';
 import Select from './UIKit/Select'
-import SimpleSelect from './UIKit/SimpleSelect'
+import SimpleSelect from './UIKit/SimpleSelect';
+import './Map.css';
+import { Toast } from 'primereact/toast';
+// import 'primeicons/primeicons.css';
+// import 'primereact/resources/themes/lara-light-indigo/theme.css';
+// import 'primereact/resources/primereact.css';
+// import 'primeflex/primeflex.css';
 
 const containerStyle = {
     height: `500px`,
@@ -56,6 +62,7 @@ function MyComponent(props) {
     const [centerCoords, setCenterCoords] = useState({ lat: -34.397, lng: 150.644 });
     const [selectedCableId, setSelectedCableId] = useState(-1);
     const [addressToAddCableTo, setAddressToAddCableTo] = useState(null);
+    const toast = useRef(null);
 
     const colors = [
         { color: "#ff4444", thickness: 14 }, { color: "#ffbb33", thickness: 12 }, { color: "#00C851", thickness: 10 }, { color: "#33b5e5", thickness: 8 },
@@ -69,6 +76,10 @@ function MyComponent(props) {
     //     if (this.props.openDrawer != undefined)
     //       this.setState({ ...this.setState, openDrawer: this.props.openDrawer })
     //   }
+
+    const showSuccess = () =>{
+        toast.current.show({ severity: 'success', summary: 'בוצע בהצלחה', detail: 'נוסף גנרטור', life: 3000 });
+    }
 
     const onPolylineComplete = (polyline) => {
         var connectToCableOrGenerator = false;
@@ -130,7 +141,6 @@ function MyComponent(props) {
             setNewCable({ generatorId: generatorId, })
         }
     }
-
     const handleAddressSelect = (event) => {
         const newBounds = new window.google.maps.LatLngBounds();
         event.target.value.path.map(c => {
@@ -272,14 +282,16 @@ function MyComponent(props) {
     }, [])
 
     return isLoaded ? (
-        <div style={{marginTop: '10vh'}}>
+    <div style={{marginTop: '15vh', width: '85%' ,marginLeft: 'auto', marginRight: 'auto'}}>       
+            <Toast ref={toast} />
             <Line>
-                <PlacesAutoComplete onSelectionChanged={handlPlaceSelect} />
+                <PlacesAutoComplete onSelectionChanged={handlPlaceSelect}/>
                 {props.addresses && <div>
-                    <Select arr={props.addresses} handleSelect={handleAddressSelect} />
+                    <Select className="selectPlace" arr={props.addresses} handleSelect={handleAddressSelect}/>
                 </div>}
             </Line>
             <GoogleMap
+                className="googleMap"
                 mapContainerStyle={containerStyle}
                 center={centerCoords}
                 zoom={10}
@@ -300,7 +312,7 @@ function MyComponent(props) {
                     />
                 }
                 //#region הוספת גנרטור
-                <AddGeneratorDrawer openDrawer={openDrawer} />
+                <AddGeneratorDrawer openDrawer={openDrawer}/>
                 //#endregion
                 {<DrawingManager
                     onPolylineComplete={(e) => { onPolylineComplete(e) }}
