@@ -119,7 +119,7 @@ export default function AddCableMap(props) {
                 zIndex={1}>
                 <Line margin={0} width={"100%"}>
                     <div style={{width:"200px"}}>
-                        {<h3>נתוני כבל בחור:</h3>}
+                        {<h3>נתוני כבל נבחר:</h3>}
                         {<p>עומס: {cable ? cable.load : 0} אמפר</p>}
                         {<p>אורך כבל: {cable ? cable.routeLength : 0} מ</p>}
                     </div>

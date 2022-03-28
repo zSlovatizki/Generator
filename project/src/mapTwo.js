@@ -144,7 +144,7 @@ function MyComponent(props) {
             }
 
         })
-        console.log("props.address.generatorID != generatorId", props.address.generatorID, generatorId, props.address.generatorID != generatorId)
+        // console.log("props.address.generatorID != generatorId", props.address.generatorID, generatorId, props.address.generatorID != generatorId)
         if (generatorId != -1 && !props.address || generatorId != -1 && props.address && props.address.generatorID != generatorId) {
             var ampereLeftToGenerator = await AmpereLeftToGenerator(generatorId);
             if (ampereLeftToGenerator < props.amperToAdd) {
@@ -430,37 +430,37 @@ function MyComponent(props) {
                 <div style={{padding:'10px'}}>
                 <p>point load:{loadLeftForCurrentPoint}</p>
                 <p>cable load:{loadForSelectedCable}</p>
-                <button onClick={deleteCable}>delete</button>
+                <Button style={{backgroundColor: '#575151', color: 'white', width:'50px'}} onClick={deleteCable}>delete</Button>
                 </div>
             </Dialog>
             <Dialog open={showCabelDeleteWarning}>
-                <div style={{padding:'10px'}}>
+                <div style={{padding:'20px'}}>
                 <p>אין אפשרות למחוק כבל זה כי יש כבל אחר שתלוי בו או כתובת שתלויה בו</p><br/>
-                <Button style={{backgroundColor: '#575151', color: 'white', width:'100%'}} onClick={() => this.setState({ ...this.state, showCabelDeleteWarning: false })}>אישור</Button>
+                <Button style={{backgroundColor: '#575151', color: 'white', width:'40%',marginLeft:'120px',marginRight:'120px'}} onClick={() => this.setState({ ...this.state, showCabelDeleteWarning: false })}>אישור</Button>
                 </div>
             </Dialog>
             <Dialog open={openDialog}>
-            <div style={{padding:'10px'}}>
-                <h>אורך כבל: {lengthForNewDrawnCable()}</h>
-                <h>סוג כבל:</h>
+            <div style={{padding:'20px'}}>
+                <h>אורך כבל: {lengthForNewDrawnCable()}</h><br/>
+                <h>סוג כבל:</h><br/>
                 <SimpleSelect v={selectedCableType}
                     setV={(v) => { setSelectedCableType(v); setSelectedCableThickness(thicknessArr[v - 1][0]); setShowLowLoadWarning(false) }}
                     arr={types}
                 // handleSelect={handleTypesSelect} 
-                />
-                <h>עובי כבל:</h>
+                /><br/>
+                <h>עובי כבל:</h><br/>
                 <SimpleSelect v={selectedCableThickness}
                     setV={(v) => { setSelectedCableThickness(v); setShowLowLoadWarning(false) }}
-                    arr={thicknessArr[selectedCableType - 1]} />
+                    arr={thicknessArr[selectedCableType - 1]} /><br/>
                 {showLowLoadWarning && <p style={{ color: "red" }}>עומס נמוך</p>}
-                <button onClick={() => addCableClick()}>{addressToAddCableTo ? "אשר" : "הוסף כבל"}</button>
-                <button onClick={() => { setNewPolyline(null); setNewCable(null); setOpenDialog(false); setShowLowLoadWarning(false) }}>בטל</button>
+                <Button style={{backgroundColor: '#575151', color: 'white', width:'40%', margin:'5px'}} onClick={() => { setNewPolyline(null); setNewCable(null); setOpenDialog(false); setShowLowLoadWarning(false) }}>בטל</Button>
+                <Button style={{backgroundColor: 'rgb(255,170,23)', color: 'white', width:'40%', margin:'5px'}} onClick={() => addCableClick()}>{addressToAddCableTo ? "אשר" : "הוסף כבל"}</Button>
                 </div>
             </Dialog>
             <Dialog open={isNotEnoughAmperInGeneratorOpen}>
-                <div style={{padding:'10px'}}>
+                <div style={{padding:'20px'}}>
                 אין אפשרות להוסיף את האמפר הנדרש על גנרטור זה<br/>
-                <Button style={{backgroundColor: '#575151', color: 'white', width:'100%'}} onClick={() => setIsNotEnoughAmperInGeneratorOpen(false)}> אישור</Button>
+                <Button style={{backgroundColor: '#575151', color: 'white', width:'40%', marginTop:'20px',marginLeft:'100px',marginRight:'100px'}} onClick={() => setIsNotEnoughAmperInGeneratorOpen(false)}> אישור</Button>
                 </div>
             </Dialog>
         </div>
