@@ -194,10 +194,8 @@ export default function TableUsersNew() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            alert("dsbvghj")
-            handleClose();
-            debugger
-            var user = {
+            var _user = {
+                id: 0,
                 firstName: values.firstName,
                 lastName: values.lastName,
                 phone: values.phone,
@@ -206,27 +204,19 @@ export default function TableUsersNew() {
                 status: 1,
                 modify: selectedManager ? 1 : 0,
             };
-            AddNewUser(user).then(
+            handleClose();
+            AddNewUser(_user).then(
                 (succ) => {
-
                     if (succ.data != -1) {
-                        setStorageItem("currentUser", JSON.stringify(user));
-                        debugger
-                        // setTitle("נרשמת בהצלחה !");
+                        _user.id = succ.data;
+                        var _users = users;
+                        _users.push(_user)
+                        console.log("users", _users);
                         setSuccess(true);
-                        // setTimeout(()=>{
-                        //     setSuccess(null);
-                        // },6000);
                     }
                     else {
-                        // setTitle("משתמש קיים במערכת !");
-                        // setIsButton(true);
-                        // setButtonText("לכניסה");
-                        // setPath("sign_in");
-                        // setSuccess(false);
-                        // setTimeout(()=>{
-                        //     setSuccess(null);
-                        // },6000);
+                        setTitle("משתמש קיים במערכת !");
+                        setSuccess(false);
                     }
                 },
                 (error) => console.log("error on create new user", error)
@@ -316,8 +306,12 @@ export default function TableUsersNew() {
         history.push({ pathname: `/userDetails/using`, search: `id=${user.id}`, state: user });
     }
     //אישור מחיקת משתמש
-    const confirmDeleteUser = (user) => {
-        setUser(user);
+    const confirmDeleteUser = (_user) => {
+        var _users=users;
+        _users=_users.filter((u)=>u.id!=_user.id);
+        console.log("+++",_users)
+        setUsers(_users)
+        setUser(_user);
         setDeleteUserDialog(true);
     }
 
@@ -375,18 +369,18 @@ export default function TableUsersNew() {
     return (
         <div className="datatable-crud-demo">
             {
-                success === true ?(
-            <Alert severity="success">
-                <AlertTitle>Success</AlertTitle>
-                This is a success alert — <strong>check it out!</strong>
-            </Alert>
-            ): success === false ?
-            (
-            <Alert severity="error">
-                <AlertTitle>Error</AlertTitle>
-                This is an error alert — <strong>check it out!</strong>
-            </Alert>
-            ):null
+                success === true ? (
+                    <Alert severity="success">
+                        <AlertTitle>Success</AlertTitle>
+                        This is a success alert — <strong>check it out!</strong>
+                    </Alert>
+                ) : success === false ?
+                    (
+                        <Alert severity="error">
+                            <AlertTitle>Error</AlertTitle>
+                            This is an error alert — <strong>check it out!</strong>
+                        </Alert>
+                    ) : null
             }
             {/* <Toast ref={toast} /> */}
             <div className="card">
