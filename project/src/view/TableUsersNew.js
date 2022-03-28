@@ -158,6 +158,7 @@ export default function TableUsersNew() {
     const [showPassword, setShowPassword] = useState(false);
     const [showVerifyPassword, setShowVerifyPassword] = useState(false);
     const [success, setSuccess] = useState(null);
+    const [newUser, setNewUser] = useState(false);
 
 
     const phoneRegExp =
@@ -213,10 +214,16 @@ export default function TableUsersNew() {
                         _users.push(_user)
                         console.log("users", _users);
                         setSuccess(true);
+                        setTimeout(()=>{
+                           setSuccess(null);
+                        },6000)
                     }
                     else {
                         setTitle("משתמש קיים במערכת !");
                         setSuccess(false);
+                        setTimeout(()=>{
+                            setSuccess(null);
+                         },6000)
                     }
                 },
                 (error) => console.log("error on create new user", error)
@@ -294,6 +301,7 @@ export default function TableUsersNew() {
         // setselectedUser(user);
         // history.push({ pathname: `/userDetails/updateDetails`, search: `id=${user.id}`, state: user });
         // setOpen(true);
+        // setNewUser(true);
         setUser(user);
         setSubmitted(false);
         setOpen(true);
@@ -369,16 +377,16 @@ export default function TableUsersNew() {
     return (
         <div className="datatable-crud-demo">
             {
-                success === true ? (
-                    <Alert severity="success">
-                        <AlertTitle>Success</AlertTitle>
-                        This is a success alert — <strong>check it out!</strong>
-                    </Alert>
-                ) : success === false ?
+               success === true ? (
+                <Alert severity="success" style={{width:"350px", position:"fixed",top:"10vh", left:5, zIndex:2000}}>
+                  <AlertTitle>בוצע בהצלחה</AlertTitle>
+                  <strong> המשתמש נוסף בהצלחה!</strong>
+                </Alert>
+              ) : success === false ?
                     (
-                        <Alert severity="error">
-                            <AlertTitle>Error</AlertTitle>
-                            This is an error alert — <strong>check it out!</strong>
+                        <Alert severity="error" style={{width:"350px", position:"fixed",top:"10vh", left:5, zIndex:2000}}>
+                            <AlertTitle>שגיאה</AlertTitle>
+                            <strong>אירעה שגיאה המערכת לא יכולה להוסיף את המשתמש נסה שוב!</strong>
                         </Alert>
                     ) : null
             }

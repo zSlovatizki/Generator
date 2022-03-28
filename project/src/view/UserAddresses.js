@@ -18,6 +18,9 @@ import Box from '@mui/material/Box';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 
+// const useStyles = makeStyles((theme) => ({
+
+// }));
 export default function UserAddresses(props) {
 
     const location = useLocation();
@@ -186,14 +189,18 @@ export default function UserAddresses(props) {
                         >
                             <p>{addressesNames[i].name} אמפר: {address.ampereAmount}</p>
                         </AccordionSummary>
-                        <AccordionDetails>
-                            <div style={{alignItems:'center'}}>
+                        <AccordionDetails style={{justifyContent:'center'}}>
+                            <div >
                                 <Button onClick={() => deleteAddress(address.userAddressID)}><DeleteIcon style={{color:'rgb(255,170,23)'}}/></Button>
                                 {await2 && <TabContext value={tabsValues[i].value}>
                                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                         <TabList TabIndicatorProps={{
                                             style: {
-                                                backgroundColor: "#FAA51A"
+                                                backgroundColor: "#FAA51A",
+                                                color:'black',
+                                                "&.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected":{
+                                                    color:'red !important'
+                                                }
                                             },
                                         }} onChange={(e, v) => handleChange(v, i)} aria-label="lab API tabs example">
                                             <Tab label="הוספת אמפר לכתובת" value="1" />

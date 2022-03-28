@@ -18,7 +18,7 @@ import WrappedMap from '../mapTwo';
 import Message from './Message';
 import TableUsersNew from './TableUsersNew';
 import UsersTable from './UsersTable';
-import UserDetails from './UserDetails';
+// import UserDetails from './UserDetails';
 
 const history = createBrowserHistory();
 
